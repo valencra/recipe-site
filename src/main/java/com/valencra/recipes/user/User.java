@@ -1,8 +1,8 @@
-package com.valencra.recipe.user;
+package com.valencra.recipes.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.valencra.recipe.core.BaseEntity;
-import com.valencra.recipe.recipe.Recipe;
+import com.valencra.recipes.core.BaseEntity;
+import com.valencra.recipes.recipe.Recipe;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +44,7 @@ public class User extends BaseEntity {
   }
 
   public User(String name, String username, String password, String[] roles) {
+    this();
     this.name = name;
     this.username = username;
     setPassword(password);

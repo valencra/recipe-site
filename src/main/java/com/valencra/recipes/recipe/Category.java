@@ -1,4 +1,4 @@
-package com.valencra.recipe.recipe;
+package com.valencra.recipes.recipe;
 
 public enum Category {
   APPETIZER ("Appetizer"),

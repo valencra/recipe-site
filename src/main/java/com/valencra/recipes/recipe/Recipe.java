@@ -115,8 +115,8 @@ public class Recipe extends BaseEntity {
     this.instructions = instructions;
   }
 
-  public void addInstruction(Integer step, String instruction) {
-    instructions.add(step, instruction);
+  public void addInstruction(String instruction) {
+    instructions.add(instruction);
   }
 
   public void removeInstruction(String instruction) {

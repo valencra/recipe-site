@@ -1,38 +1,11 @@
 package com.valencra.recipes.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class RecipeUserService implements UserService {
-
-  @Autowired
-  private UserRepository userRepository;
-
-  @Override
-  public void save(RecipeUser recipeUser) {
-    userRepository.save(recipeUser);
-  }
-
-  @Override
-  public List<RecipeUser> findAll() {
-    return userRepository.findAll();
-  }
-
-  @Override
-  public RecipeUser findById(Long id) {
-    return userRepository.findById(id);
-  }
-
-  @Override
-  public RecipeUser findByUsername(String username) {
-    return userRepository.findByUsername(username);
-  }
-
-  @Override
-  public void delete(RecipeUser recipeUser) {
-    userRepository.delete(recipeUser);
-  }
+public interface RecipeUserService {
+  void save(RecipeUser recipeUser);
+  List<RecipeUser> findAll();
+  RecipeUser findById(Long id);
+  RecipeUser findByUsername(String username);
+  void delete(RecipeUser recipeUser);
 }

@@ -12,27 +12,27 @@ public class RecipeUserService implements UserService {
   private UserRepository userRepository;
 
   @Override
-  public void save(User user) {
-    userRepository.save(user);
+  public void save(RecipeUser recipeUser) {
+    userRepository.save(recipeUser);
   }
 
   @Override
-  public List<User> findAll() {
+  public List<RecipeUser> findAll() {
     return userRepository.findAll();
   }
 
   @Override
-  public User findById(Long id) {
+  public RecipeUser findById(Long id) {
     return userRepository.findById(id);
   }
 
   @Override
-  public User findByUsername(String username) {
+  public RecipeUser findByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 
   @Override
-  public void delete(User user) {
-    userRepository.delete(user);
+  public void delete(RecipeUser recipeUser) {
+    userRepository.delete(recipeUser);
   }
 }

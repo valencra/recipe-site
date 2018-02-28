@@ -3,9 +3,9 @@ package com.valencra.recipes.user;
 import java.util.List;
 
 public interface UserService {
-  void save(User user);
-  List<User> findAll();
-  User findById(Long id);
-  User findByUsername(String username);
-  void delete(User user);
+  void save(RecipeUser recipeUser);
+  List<RecipeUser> findAll();
+  RecipeUser findById(Long id);
+  RecipeUser findByUsername(String username);
+  void delete(RecipeUser recipeUser);
 }

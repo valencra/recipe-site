@@ -2,7 +2,7 @@ package com.valencra.recipes.recipe;
 
 import com.valencra.recipes.core.BaseEntity;
 import com.valencra.recipes.ingredient.Ingredient;
-import com.valencra.recipes.user.User;
+import com.valencra.recipes.user.RecipeUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class Recipe extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "author_id")
-  private User author;
+  private RecipeUser author;
 
   protected Recipe() {
     super();
@@ -48,7 +48,7 @@ public class Recipe extends BaseEntity {
   }
 
   public Recipe(String name, String description, Category category, byte[] image,
-                Integer preparationTime, Integer cookingTime, User author) {
+                Integer preparationTime, Integer cookingTime, RecipeUser author) {
     this();
     this.name = name;
     this.description = description;
@@ -139,16 +139,16 @@ public class Recipe extends BaseEntity {
     this.cookingTime = cookingTime;
   }
 
-  public User getAuthor() {
+  public RecipeUser getAuthor() {
     return author;
   }
 
-  public void setAuthor(User author) {
+  public void setAuthor(RecipeUser author) {
     this.author = author;
   }
 
-  public boolean isFavorite(User user) {
-    return user.getFavoriteRecipes().contains(this);
+  public boolean isFavorite(RecipeUser recipeUser) {
+    return recipeUser.getFavoriteRecipes().contains(this);
   }
 
   @Override

@@ -9,30 +9,30 @@ import java.util.List;
 public class RecipeRecipeUserServiceImpl implements RecipeUserService {
 
   @Autowired
-  private UserRepository userRepository;
+  private RecipeUserRepository recipeUserRepository;
 
   @Override
   public void save(RecipeUser recipeUser) {
-    userRepository.save(recipeUser);
+    recipeUserRepository.save(recipeUser);
   }
 
   @Override
   public List<RecipeUser> findAll() {
-    return userRepository.findAll();
+    return recipeUserRepository.findAll();
   }
 
   @Override
   public RecipeUser findById(Long id) {
-    return userRepository.findById(id);
+    return recipeUserRepository.findById(id);
   }
 
   @Override
   public RecipeUser findByUsername(String username) {
-    return userRepository.findByUsername(username);
+    return recipeUserRepository.findByUsername(username);
   }
 
   @Override
   public void delete(RecipeUser recipeUser) {
-    userRepository.delete(recipeUser);
+    recipeUserRepository.delete(recipeUser);
   }
 }

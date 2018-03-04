@@ -33,16 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/assets/**");
-  }
-
-  @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
         .authorizeRequests()
         .antMatchers("/signup").permitAll()
-        .anyRequest().permitAll()
+        .anyRequest().authenticated()
         .and()
         .formLogin()
         .loginPage("/login")

@@ -1,5 +1,6 @@
-package com.valencra.recipes.user;
+package com.valencra.recipes.service;
 
+import com.valencra.recipes.model.RecipeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;

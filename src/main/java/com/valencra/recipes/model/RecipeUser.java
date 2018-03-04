@@ -1,8 +1,6 @@
-package com.valencra.recipes.user;
+package com.valencra.recipes.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.valencra.recipes.core.BaseEntity;
-import com.valencra.recipes.recipe.Recipe;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

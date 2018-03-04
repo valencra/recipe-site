@@ -1,8 +1,6 @@
-package com.valencra.recipes.recipe;
+package com.valencra.recipes.model;
 
-import com.valencra.recipes.core.BaseEntity;
-import com.valencra.recipes.ingredient.Ingredient;
-import com.valencra.recipes.user.RecipeUser;
+import com.valencra.recipes.enums.Category;
 
 import java.util.ArrayList;
 import java.util.Arrays;

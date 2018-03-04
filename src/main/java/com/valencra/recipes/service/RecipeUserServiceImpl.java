@@ -1,12 +1,14 @@
-package com.valencra.recipes.user;
+package com.valencra.recipes.service;
 
+import com.valencra.recipes.model.RecipeUser;
+import com.valencra.recipes.repository.RecipeUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RecipeRecipeUserServiceImpl implements RecipeUserService {
+public class RecipeUserServiceImpl implements RecipeUserService {
 
   @Autowired
   private RecipeUserRepository recipeUserRepository;

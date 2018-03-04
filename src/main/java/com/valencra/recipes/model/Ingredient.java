@@ -1,6 +1,6 @@
-package com.valencra.recipes.ingredient;
+package com.valencra.recipes.model;
 
-import com.valencra.recipes.core.BaseEntity;
+import com.valencra.recipes.model.BaseEntity;
 
 import javax.persistence.Entity;
 

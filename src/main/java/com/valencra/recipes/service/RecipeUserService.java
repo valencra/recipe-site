@@ -1,4 +1,6 @@
-package com.valencra.recipes.user;
+package com.valencra.recipes.service;
+
+import com.valencra.recipes.model.RecipeUser;
 
 import java.util.List;
 

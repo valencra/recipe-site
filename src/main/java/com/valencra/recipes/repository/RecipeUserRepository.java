@@ -1,5 +1,6 @@
-package com.valencra.recipes.user;
+package com.valencra.recipes.repository;
 
+import com.valencra.recipes.model.RecipeUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

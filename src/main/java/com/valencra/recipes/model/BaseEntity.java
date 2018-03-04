@@ -1,4 +1,4 @@
-package com.valencra.recipes.core;
+package com.valencra.recipes.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

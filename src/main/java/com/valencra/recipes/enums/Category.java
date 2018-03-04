@@ -1,10 +1,10 @@
 package com.valencra.recipes.enums;
 
 public enum Category {
-  APPETIZER ("Appetizer"),
-  ENTREE    ("Entree"),
-  DESSERT   ("Dessert"),
-  DRINK     ("Drink");
+  BREAKFAST ("Breakfast"),
+  LUNCH    ("Lunch"),
+  DINNER    ("Dinner"),
+  DESSERT   ("Dessert");
 
   private String name;
 

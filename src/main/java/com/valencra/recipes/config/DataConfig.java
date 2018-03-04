@@ -37,10 +37,10 @@ public class DataConfig {
   @Bean
   public DataSource dataSource() {
     BasicDataSource ds = new BasicDataSource();
-    ds.setDriverClassName(env.getProperty("todotoday.db.driver"));
-    ds.setUrl(env.getProperty("todotoday.db.url"));
-    ds.setUsername(env.getProperty("todotoday.db.username"));
-    ds.setPassword(env.getProperty("todotoday.db.password"));
+    ds.setDriverClassName(env.getProperty("recipes.db.driver"));
+    ds.setUrl(env.getProperty("recipes.db.url"));
+    ds.setUsername(env.getProperty("recipes.db.username"));
+    ds.setPassword(env.getProperty("recipes.db.password"));
     return ds;
   }
 

@@ -37,7 +37,7 @@ public class Recipe extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "author_id")
-  private RecipeUser author;
+  private User author;
 
   protected Recipe() {
     super();
@@ -46,7 +46,7 @@ public class Recipe extends BaseEntity {
   }
 
   public Recipe(String name, String description, Category category, byte[] image,
-                Integer preparationTime, Integer cookingTime, RecipeUser author) {
+                Integer preparationTime, Integer cookingTime, User author) {
     this();
     this.name = name;
     this.description = description;
@@ -137,16 +137,16 @@ public class Recipe extends BaseEntity {
     this.cookingTime = cookingTime;
   }
 
-  public RecipeUser getAuthor() {
+  public User getAuthor() {
     return author;
   }
 
-  public void setAuthor(RecipeUser author) {
+  public void setAuthor(User author) {
     this.author = author;
   }
 
-  public boolean isFavorite(RecipeUser recipeUser) {
-    return recipeUser.getFavoriteRecipes().contains(this);
+  public boolean isFavorite(User user) {
+    return user.getFavoriteRecipes().contains(this);
   }
 
   @Override

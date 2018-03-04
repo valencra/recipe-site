@@ -15,7 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
-public class RecipeUser extends BaseEntity {
+public class User extends BaseEntity {
 
   public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
@@ -35,13 +35,13 @@ public class RecipeUser extends BaseEntity {
   @ManyToMany
   private List<Recipe> favoriteRecipes;
 
-  protected RecipeUser() {
+  protected User() {
     super();
     recipes = new ArrayList<>();
     favoriteRecipes = new ArrayList<>();
   }
 
-  public RecipeUser(String name, String username, String password, String[] roles) {
+  public User(String name, String username, String password, String[] roles) {
     this();
     this.name = name;
     this.username = username;
@@ -133,9 +133,9 @@ public class RecipeUser extends BaseEntity {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecipeUser recipeUser = (RecipeUser) o;
-    return Objects.equals(name, recipeUser.name) &&
-        Objects.equals(username, recipeUser.username);
+    User user = (User) o;
+    return Objects.equals(name, user.name) &&
+        Objects.equals(username, user.username);
   }
 
   @Override

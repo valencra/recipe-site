@@ -20,7 +20,7 @@ public class Recipe extends BaseEntity {
 
   private String description;
 
-  private Category category;
+  private String category;
 
   @Lob
   private byte[] image;
@@ -45,7 +45,7 @@ public class Recipe extends BaseEntity {
     instructions = new ArrayList<>();
   }
 
-  public Recipe(String name, String description, Category category, byte[] image,
+  public Recipe(String name, String description, String category, byte[] image,
                 Integer preparationTime, Integer cookingTime, User author) {
     this();
     this.name = name;
@@ -73,11 +73,11 @@ public class Recipe extends BaseEntity {
     this.description = description;
   }
 
-  public Category getCategory() {
+  public String getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(String category) {
     this.category = category;
   }
 

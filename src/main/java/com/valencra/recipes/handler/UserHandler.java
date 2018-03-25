@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @ControllerAdvice(basePackages = "com.valencra.recipes.web.controller")
 public class UserHandler {
   public static final String USERNAME_NOT_FOUND_ERR_MSG = "Unable to find username";
-  public static final String ACCESS_DENIED_ERR_MSG = "Sign-in to use the app";
+  public static final String ACCESS_DENIED_ERR_MSG = "Login to use the app";
 
   @Autowired
   private UserService userService;

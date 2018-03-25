@@ -35,7 +35,7 @@ public class User extends BaseEntity {
   @ManyToMany
   private List<Recipe> favoriteRecipes;
 
-  protected User() {
+  public User() {
     super();
     recipes = new ArrayList<>();
     favoriteRecipes = new ArrayList<>();

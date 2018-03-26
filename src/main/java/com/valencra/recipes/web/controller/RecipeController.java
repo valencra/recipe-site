@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -36,5 +37,12 @@ public class RecipeController {
     model.addAttribute("categories", Category.values());
 
     return "index";
+  }
+
+  @GetMapping("/recipes/{id}")
+  public String recipeDetail(Model model, @PathVariable Long id) {
+    Recipe recipe = recipeService.findOne(id);
+    model.addAttribute("recipe", recipe);
+    return "detail";
   }
 }

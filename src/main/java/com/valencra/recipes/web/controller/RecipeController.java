@@ -72,4 +72,30 @@ public class RecipeController {
 
     return "redirect:/recipes/" + recipe.getId();
   }
+
+  @GetMapping("/recipes/{id}/edit-form")
+  public String editRecipeForm(Model model, @PathVariable Long id) {
+    Recipe recipe = recipeService.findOne(id);
+
+    model.addAttribute("recipe", recipe);
+    model.addAttribute("categories", Category.values());
+    model.addAttribute("redirect", "/recipes/" + id);
+    model.addAttribute("heading", "Edit Recipe");
+    model.addAttribute("action", "/recipes/" + id + "/edit");
+    model.addAttribute("submit", "Edit");
+
+    return "edit";
+  }
+
+  @PostMapping(value = "/recipes/{id}/edit")
+  public String editRecipe(Recipe recipe, @PathVariable Long id) {
+    User author = recipeService.findOne(id).getAuthor();
+    recipe.setAuthor(author);
+    recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
+
+    recipeService.save(recipe, author);
+    userService.save(author);
+
+    return "redirect:/recipes/" + recipe.getId();
+  }
 }

@@ -39,7 +39,7 @@ public class Recipe extends BaseEntity {
   @JoinColumn(name = "author_id")
   private User author;
 
-  protected Recipe() {
+  public Recipe() {
     super();
     ingredients = new ArrayList<>();
     instructions = new ArrayList<>();
@@ -175,7 +175,7 @@ public class Recipe extends BaseEntity {
     Recipe recipe = (Recipe) o;
     return Objects.equals(name, recipe.name) &&
         Objects.equals(description, recipe.description) &&
-        category == recipe.category &&
+        category.equals(recipe.category) &&
         Arrays.equals(image, recipe.image) &&
         Objects.equals(ingredients, recipe.ingredients) &&
         Objects.equals(instructions, recipe.instructions) &&

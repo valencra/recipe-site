@@ -3,6 +3,7 @@ package com.valencra.recipes.model;
 import com.valencra.recipes.model.BaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Ingredient extends BaseEntity {
@@ -14,6 +15,9 @@ public class Ingredient extends BaseEntity {
   private Double quantity;
 
   private String measurement;
+
+  @ManyToOne
+  private Recipe recipe;
 
   protected Ingredient() {
     super();
@@ -56,5 +60,13 @@ public class Ingredient extends BaseEntity {
 
   public void setMeasurement(String measurement) {
     this.measurement = measurement;
+  }
+
+  public Recipe getRecipe() {
+    return recipe;
+  }
+
+  public void setRecipe(Recipe recipe) {
+    this.recipe = recipe;
   }
 }

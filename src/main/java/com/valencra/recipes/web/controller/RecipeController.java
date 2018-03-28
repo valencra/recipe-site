@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class RecipeController {
@@ -45,10 +46,26 @@ public class RecipeController {
   }
 
   @GetMapping("/recipes/{id}")
-  public String recipeDetail(Model model, @PathVariable Long id) {
+  public String recipeDetail(@PathVariable Long id, Model model) {
     Recipe recipe = recipeService.findOne(id);
     model.addAttribute("recipe", recipe);
     return "detail";
+  }
+
+  @PostMapping("/recipes/{id}/favourite")
+  public String favouriteRecipe(@PathVariable Long id, Model model, HttpServletRequest request) {
+    User currentUser = (User) model.asMap().get("currentUser");
+    Recipe recipe = recipeService.findOne(id);
+
+    if (currentUser.getFavoriteRecipes().contains(recipe)) {
+      currentUser.removeFavoriteRecipe(recipe);
+    }
+    else {
+      currentUser.addFavoriteRecipe(recipe);
+    }
+
+    userService.save(currentUser);
+    return "redirect:" + request.getHeader("Referer");
   }
 
   @GetMapping("/recipes/search")
@@ -59,7 +76,7 @@ public class RecipeController {
       Model model) {
     List<Recipe> recipes = recipeService.findAll();
 
-    if (query != null && query.trim() != "") {
+    if (query != null && !query.trim().equals("")) {
       switch (field) {
         case "name":
           recipes = recipeService.findByNameContaining(query);
@@ -72,7 +89,7 @@ public class RecipeController {
           break;
       }
 
-      if (category != null && category.trim() != "") {
+      if (category != null && !category.trim().equals("")) {
         recipes = recipes.stream()
             .filter(recipe -> recipe.getCategory().equals(category))
             .collect(Collectors.toList());
@@ -113,7 +130,7 @@ public class RecipeController {
   }
 
   @GetMapping("/recipes/{id}/edit-form")
-  public String editRecipeForm(Model model, @PathVariable Long id) {
+  public String editRecipeForm(@PathVariable Long id, Model model) {
     Recipe recipe = recipeService.findOne(id);
 
     model.addAttribute("recipe", recipe);
@@ -127,7 +144,7 @@ public class RecipeController {
   }
 
   @PostMapping(value = "/recipes/{id}/edit")
-  public String editRecipe(Recipe recipe, @PathVariable Long id) {
+  public String editRecipe(@PathVariable Long id, Recipe recipe) {
     User author = recipeService.findOne(id).getAuthor();
     recipe.setAuthor(author);
     recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
@@ -139,7 +156,7 @@ public class RecipeController {
   }
 
   @DeleteMapping(path = "/recipes/{id}/delete")
-  public String deleteRecipe(Model model, @PathVariable Long id) {
+  public String deleteRecipe(@PathVariable Long id, Model model) {
     User currentUser = (User) model.asMap().get("currentUser");
     Recipe recipe = recipeService.findOne(id);
     recipeService.delete(recipe, currentUser);

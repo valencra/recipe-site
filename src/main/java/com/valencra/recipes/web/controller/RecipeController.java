@@ -7,6 +7,7 @@ import com.valencra.recipes.service.IngredientService;
 import com.valencra.recipes.service.RecipeService;
 import com.valencra.recipes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +54,12 @@ public class RecipeController {
     Recipe recipe = recipeService.findOne(id);
     model.addAttribute("recipe", recipe);
     return "detail";
+  }
+
+  @GetMapping(value = "/recipes/{id}/image", produces = MediaType.IMAGE_PNG_VALUE)
+  public @ResponseBody byte[] recipeImage(@PathVariable Long id) {
+    byte[] image = recipeService.findOne(id).getImage();
+    return image;
   }
 
   @PostMapping("/recipes/{id}/favourite")
@@ -118,10 +128,17 @@ public class RecipeController {
   }
 
   @PostMapping("/recipes/create")
-  public String createRecipe(Recipe recipe, Model model) {
+  public String createRecipe(@RequestParam MultipartFile imageFile, Recipe recipe, Model model) {
     User currentUser = (User) model.asMap().get("currentUser");
     recipe.setAuthor(currentUser);
     recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
+    try {
+      byte[] image = imageFile.getBytes();
+      recipe.setImage(image);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
 
     recipeService.save(recipe, currentUser);
     userService.save(currentUser);
@@ -144,10 +161,17 @@ public class RecipeController {
   }
 
   @PostMapping(value = "/recipes/{id}/edit")
-  public String editRecipe(@PathVariable Long id, Recipe recipe) {
+  public String editRecipe(@PathVariable Long id, @RequestParam MultipartFile imageFile, Recipe recipe) {
     User author = recipeService.findOne(id).getAuthor();
     recipe.setAuthor(author);
     recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
+    try {
+      byte[] image = imageFile.getBytes();
+      recipe.setImage(image);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
 
     recipeService.save(recipe, author);
     userService.save(author);

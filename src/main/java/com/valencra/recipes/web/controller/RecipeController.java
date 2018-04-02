@@ -62,8 +62,8 @@ public class RecipeController {
     return image;
   }
 
-  @PostMapping("/recipes/{id}/favourite")
-  public String favouriteRecipe(@PathVariable Long id, Model model, HttpServletRequest request) {
+  @PostMapping("/recipes/{id}/favorite")
+  public String favoriteRecipe(@PathVariable Long id, Model model, HttpServletRequest request) {
     User currentUser = (User) model.asMap().get("currentUser");
     Recipe recipe = recipeService.findOne(id);
 

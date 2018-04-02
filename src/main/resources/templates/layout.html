@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<div th:fragment="head">
-    <head>
+<head th:fragment="head">
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
 
-        <title>My Recipes</title>
+    <title>My Recipes</title>
 
-        <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" th:href="@{/css/unsemantic-grid-responsive.css}">
-        <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" th:href="@{/css/unsemantic-grid-responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 
-    </head>
-</div>
+</head>
 
 <body>
 
-    <div th:fragment="nav">
-        <nav>
-            <a th:href="@{|/profile|}" th:text="${currentUser.name}">
-                Chandra S.
-            </a>
-            &bull;
-            <form th:action="@{/logout}" method="post" style="display: inline">
-                logout
-            </form>
-        </nav>
-    </div>
+    <nav th:fragment="nav">
+        <a th:href="@{|/profile|}" th:text="${currentUser.name}">
+            Chandra S.
+        </a>
+        &bull;
+        <form th:action="@{/logout}" method="post" style="display: inline">
+            logout
+        </form>
+    </nav>
 
     <div th:fragment="home">
         <div class="grid-100">
@@ -42,7 +38,7 @@
         </div>
     </div>
 
-    <div th:fragment="favorite" >
+    <div th:fragment="favorite">
         <form th:action="@{|/recipes/${recipe.id}/favorite|}" method="post" style="display:inline">
             <button type="submit">
                 <img th:src="${recipe.isFavorite(currentUser)} ? @{/images/favorited.svg} : @{/images/favorite.svg}" style="height: 15px;">

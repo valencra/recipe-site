@@ -1,29 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-
-  <title>Sign-up | My Recipes</title>
-
-  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/unsemantic-grid-responsive.css">
-  <link rel="stylesheet" href="css/styles.css">
-
-</head>
+<head th:replace="layout :: head"></head>
 
 <body>
 
-  <nav>
-    <a href="signup.html">
-      sign-up
-    </a>
-    &bull;
-    <a href="login.html">
-      login
-    </a>
-  </nav>
+  <nav th:replace="layout :: nav-unknown"></nav>
 
   <div class="grid-container">
 

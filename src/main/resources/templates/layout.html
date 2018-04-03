@@ -16,7 +16,17 @@
 
 <body>
 
-    <nav th:fragment="nav">
+    <nav th:fragment="nav-unknown">
+        <a th:href="@{/signup}">
+            sign-up
+        </a>
+        &bull;
+        <a th:href="@{/login}">
+            login
+        </a>
+    </nav>
+
+    <nav th:fragment="nav-auth">
         <a th:href="@{|/profile|}" th:text="${currentUser.name}">
             Chandra S.
         </a>

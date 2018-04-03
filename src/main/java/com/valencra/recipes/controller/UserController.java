@@ -1,4 +1,4 @@
-package com.valencra.recipes.web.controller;
+package com.valencra.recipes.controller;
 
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.UserService;

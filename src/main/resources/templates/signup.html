@@ -13,7 +13,7 @@
 
     <div class="grid-100">
       <div class="recipes">
-        <form th:action="@{/users}" method="post" th:object="${user}">
+        <form th:action="@{/signup}" method="post" th:object="${user}">
           <input type="hidden" th:field="*{id}"/>
           <input type="hidden" th:field="*{version}"/>
           <div class="prefix-20 grid-60 suffix-20">

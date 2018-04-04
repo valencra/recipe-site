@@ -15,13 +15,13 @@ public class UserController {
   private UserService userService;
 
   @GetMapping("/signup")
-  public String signup(Model model) {
+  public String signupForm(Model model) {
     model.addAttribute("user", new User());
     return "signup";
   }
 
-  @PostMapping("/users")
-  public String createUser(User user) {
+  @PostMapping("/signup")
+  public String signup(User user) {
     // only create user if it does not exist
     if (userService.findByUsername(user.getUsername()) == null) {
       user.setRoles(new String[] {"ROLE_USER"});
@@ -34,7 +34,7 @@ public class UserController {
   }
 
   @GetMapping("/login")
-  public String login(Model model) {
+  public String loginForm(Model model) {
     model.addAttribute("user", new User());
     return "login";
   }

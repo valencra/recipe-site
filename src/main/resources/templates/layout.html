@@ -27,7 +27,7 @@
     </nav>
 
     <nav th:fragment="nav-auth">
-        <a th:href="@{|/profile|}" th:text="${currentUser.name}">
+        <a th:href="@{/profile}" th:text="${currentUser.name}">
             Chandra S.
         </a>
         &bull;
@@ -38,7 +38,7 @@
 
     <div th:fragment="home">
         <div class="grid-100">
-            <a th:href="@{|/|}">
+            <a th:href="@{/}">
                 <h1>
                     <img th:src="@{/images/chefbot.svg}" height="60px">
                     <br>
@@ -49,7 +49,7 @@
     </div>
 
     <div th:fragment="favorite">
-        <form th:action="@{|/recipes/${recipe.id}/favorite|}" method="post" style="display:inline">
+        <form th:action="@{/recipes/${recipe.id}/favorite}" method="post" style="display:inline">
             <button type="submit">
                 <img th:src="${recipe.isFavorite(currentUser)} ? @{/images/favorited.svg} : @{/images/favorite.svg}" style="height: 15px;">
             </button>

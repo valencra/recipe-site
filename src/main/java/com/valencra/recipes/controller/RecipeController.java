@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class RecipeController {
+  public static final List<String> SEARCH_FILTERS =
+      Arrays.asList("name", "description", "ingredient");
+
   @Autowired
   private UserService userService;
 
@@ -44,6 +48,7 @@ public class RecipeController {
     List<Recipe> recipes = recipeService.findAll();
     model.addAttribute("recipes", recipes);
     model.addAttribute("categories", Category.values());
+    model.addAttribute("filters", SEARCH_FILTERS);
 
     return "index";
   }

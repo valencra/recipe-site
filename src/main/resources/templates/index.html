@@ -17,7 +17,7 @@
 
         <div class="grid-100 row controls">
           <form action="/recipes/search" method="get">
-            <div class="grid-15">
+            <div class="grid-20">
               <select>
                 <option value="">All Categories</option>
                 <option th:each="category: ${categories}"
@@ -28,7 +28,7 @@
               </select>
             </div>
 
-            <div class="grid-30">
+            <div class="grid-40">
               <input placeholder="Search" th:value="${query}"></input>
             </div>
 
@@ -42,16 +42,18 @@
                 </option>
               </select>
             </div>
+
+            <div class="grid-25">
+              <div class="flush-right">
+                <form action="/recipes/create-form">
+                  <button>+ Add Recipe</button>
+                </form>
+              </div>
+            </div>
+
           </form>
         </div>
 
-        <div class="grid-30">
-          <div class="flush-right">
-            <form action="/recipes/create-form">
-              <button>+ Add Recipe</button>
-            </form>
-          </div>
-        </div>
         </div> <div class="clear"></div>
 
         <div class="grid-100 row addHover" th:each="recipe : ${recipes}">

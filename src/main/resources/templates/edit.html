@@ -1,274 +1,225 @@
 <!doctype html>
 <html lang="en">
-<head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-
-  <title>Recipe Editor | My Recipes</title>
-
-  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/unsemantic-grid-responsive.css">
-  <link rel="stylesheet" href="css/styles.css">
-
-</head>
+<head th:replace="layout :: head"></head>
 
 <body>
 
-  <nav>
-    <a href="profile.html">
-      Chandra S.
-    </a>
-    &bull;
-    <a href="login.html">
-      logout
-    </a>
-  </nav>
+<nav th:replace="layout :: nav-auth"></nav>
 
-  <div class="grid-container">
+<div class="grid-container">
 
-    <div class="grid-100">
-      <a href="index.html">
-        <h1>
-          <img src="images/chefbot.svg" height="60px">
-          <br>
-          My Recipes
-        </h1>
-      </a>
-    </div>
+    <div th:replace="layout :: home"></div>
 
     <div class="grid-100">
 
-      <div class="recipes">
+        <div class="recipes">
 
-        <div class="grid-100 row controls">
-          <div class="grid-50">
-            <h2> Recipe Editor </h2>
-          </div>
-          <div class="grid-50">
-            <div class="flush-right">
-              <button>Save Recipe</button>
-              <button class="secondary">Cancel</button>
-            </div>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Photo </label>
-            </p>
-          </div>
-          <div class="grid-40">
-            <p>
-              <input placeholder="Url"/>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Name </label>
-            </p>
-          </div>
-          <div class="grid-40">
-            <p>
-              <input/>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Description </label>
-            </p>
-          </div>
-          <div class="grid-40">
-            <p>
-              <textarea> </textarea>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Category </label>
-            </p>
-          </div>
-          <div class="grid-30">
-            <p>
-              <select>
-                <option value="">All Categories</option>
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-                <option value="dessert">Dessert</option>
-              </select>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Prep Time </label>
-            </p>
-          </div>
-          <div class="grid-20">
-            <p>
-              <input/>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Cook Time </label>
-            </p>
-          </div>
-          <div class="grid-20">
-            <p>
-              <input/>
-            </p>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row">
-          <div class="grid-20">
-            <p class="label-spacing">
-              <label> Ingredients </label>
-            </p>
-          </div>
-          <div class="grid-30">
-            <p class="label-spacing">
-              <label> Item <label>
-              </p>
-            </div>
-            <div class="grid-30">
-              <p class="label-spacing">
-                <label> Condition <label>
-                </p>
-              </div>
-              <div class="grid-20">
-                <p class="label-spacing">
-                  <label> Quantity <label>
-                  </p>
-                </div>
-
-                <div class="ingredient-row">
-                  <div class="prefix-20 grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-10 suffix-10">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="ingredient-row">
-                  <div class="prefix-20 grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-10 suffix-10">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="ingredient-row">
-                  <div class="prefix-20 grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-30">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                  <div class="grid-10 suffix-10">
-                    <p>
-                      <input/>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="prefix-20 grid-80 add-row">
-                  <p>
-                    <button>+ Add Another Ingredient</button>
-                  </p>
-                </div>
-
-              </div> <div class="clear"></div>
-
-              <div class="grid-100 row">
-                <div class="grid-20">
-                  <p class="label-spacing">
-                    <label> Steps </label>
-                  </p>
-                </div>
-                <div class="grid-80">
-                  <p class="label-spacing">
-                    <label> Description <label>
-                    </p>
-                  </div>
-
-                  <div class="step-row">
-                    <div class="prefix-20 grid-80">
-                      <p>
-                        <input/>
-                      </p>
+            <form th:action="@{${action}}" enctype="multipart/form-data" method="post"
+                  th:object="${recipe}">
+                <div class="grid-100 row controls">
+                    <div class="grid-50">
+                        <h2 th:text="${heading}"> Recipe Editor </h2>
                     </div>
-                  </div>
 
-                  <div class="step-row">
-                    <div class="prefix-20 grid-80">
-                      <p>
-                        <input/>
-                      </p>
+                    <div class="grid-50">
+                        <div class="flush-right">
+                            <input class="button" type="submit" th:value="${submit}"/>
+                            <a th:href="@{|/recipes|}" class="secondary">
+                                <button class="secondary"><a th:href="@{${redirect}}">Cancel</a>
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                  </div>
 
-                  <div class="step-row">
-                    <div class="prefix-20 grid-80">
-                      <p>
-                        <input/>
-                      </p>
+                </div>
+                <div class="clear"></div>
+
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:if="${recipe.author}" th:field="*{author}"/>
+                <input type="hidden" th:field="*{version}"/>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Photo </label>
+                        </p>
                     </div>
-                  </div>
+                    <div class="grid-40">
+                        <p>
+                            <img th:if="${recipe.image}" th:src="@{'/recipes/'+${recipe.id}+'/image'}" height="256" width="256"/>
+                            <input type="file" name="imageFile" id="imageFile"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
 
-                  <div class="prefix-20 grid-80 add-row">
-                    <p>
-                      <button>+ Add Another Step</button>
-                    </p>
-                  </div>
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Name </label>
+                        </p>
+                    </div>
+                    <div class="grid-40">
+                        <p>
+                            <input type="text" th:field="*{name}"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
 
-                </div> <div class="clear"></div>
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Description </label>
+                        </p>
+                    </div>
+                    <div class="grid-40">
+                        <p>
+                            <textarea rows="4" th:field="*{description}"></textarea>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Category </label>
+                        </p>
+                    </div>
+                    <div class="grid-30">
+                        <p>
+                            <select th:field="*{category}">
+                                <option value="" disabled="disabled">All Categories</option>
+                                <option th:each="cat : ${categories}"
+                                        th:value="${cat.name}"
+                                        th:text="${cat.name}">All Categories
+                                </option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Prep Time </label>
+                        </p>
+                    </div>
+                    <div class="grid-20">
+                        <p>
+                            <input type="number" th:field="*{preparationTime}"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Cook Time </label>
+                        </p>
+                    </div>
+                    <div class="grid-20">
+                        <p>
+                            <input type="number" th:field="*{cookingTime}"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Ingredients </label>
+                        </p>
+                    </div>
+                    <div class="grid-30">
+                        <p class="label-spacing">
+                            <label> Item <label>
+                        </p>
+                    </div>
+                    <div class="grid-30">
+                        <p class="label-spacing">
+                            <label> Condition <label>
+                        </p>
+                    </div>
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Quantity <label>
+                        </p>
+                    </div>
+
+                    <div th:each="ingredient: *{ingredients}">
+                        <div class="ingredient-row" th:id="'ingredientNumber' + ${ingredientStat.index}">
+                            <div class="prefix-20 grid-20">
+                                <input type="hidden" th:field="*{ingredients[__${ingredientStat.index}__].id}"/>
+                                <p>
+                                    <input th:field="*{ingredients[__${ingredientStat.index}__].name}"/>
+                                </p>
+                            </div>
+                            <div class="grid-20">
+                                <p>
+                                    <input th:field="*{ingredients[__${ingredientStat.index}__].condition}"/>
+                                </p>
+                            </div>
+                            <div class="grid-10">
+                                <p>
+                                    <input class="quantity" th:field="*{ingredients[__${ingredientStat.index}__].quantity}"/>
+                                </p>
+                            </div>
+                            <div class="prefix-5 grid-20">
+                                <p>
+                                    <input th:field="*{ingredients[__${ingredientStat.index}__].measurement}"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="newIngredientButton" class="prefix-20 grid-80 add-row">
+                        <p>
+                            <button type="button" id="newIngredient">+ Add Another Ingredient</button>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid-100 row">
+                    <div class="grid-20">
+                        <p class="label-spacing">
+                            <label> Steps </label>
+                        </p>
+                    </div>
+                    <div class="grid-80">
+                        <p class="label-spacing">
+                            <label> Description <label>
+                        </p>
+                    </div>
+
+                    <div class="step-row" th:each="instruction: *{instructions}">
+                        <div class="grid-80">
+                            <p>
+                                <input style="margin-left: 147px" th:field="*{instructions[__${instructionStat.index}__]}"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="newStepButton" class="prefix-20 grid-80 add-row">
+                        <p>
+                            <button id="newStep" type="button">+ Add Another Step</button>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
 
                 <div class="row">&nbsp;</div>
+            </form>
 
-              </div> <!-- recipes -->
-            </div> <!-- grid-100 -->
-          </div> <!-- grid-container -->
-        </body>
-        </html>
+        </div> <!-- recipes -->
+    </div> <!-- grid-100 -->
+</div> <!-- grid-container -->
+</body>
+</html>

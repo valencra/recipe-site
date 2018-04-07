@@ -3,6 +3,7 @@ package com.valencra.recipes.controller;
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,23 +41,21 @@ public class UserController {
   }
 
   @GetMapping("/profile")
-  public String currentUserProfile(Model model) {
-    User currentUser = (User) model.asMap().get("currentUser");
-    model.addAttribute("user", currentUser);
+  public String currentUserProfile(Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
     model.addAttribute("authorized", true);
     return "profile";
   }
 
   @GetMapping("/users/{id}")
   public String userProfile(@PathVariable Long id, Model model) {
-    User queriedUser = userService.findOne(id);
-    model.addAttribute("user", queriedUser);
-
-    User currentUser = (User) model.asMap().get("currentUser");
-    if (currentUser != null && currentUser.isAdmin()) {
-      model.addAttribute("authorized", true);
-    }
-
+    User user = userService.findOne(id);
+    model.addAttribute("user", user);
     return "profile";
   }
 }

@@ -8,6 +8,7 @@ import com.valencra.recipes.service.RecipeService;
 import com.valencra.recipes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,11 +40,13 @@ public class RecipeController {
   private RecipeService recipeService;
 
   @GetMapping("/")
-  public String recipesIndex(Model model) {
-    User currentUser = (User) model.asMap().get("currentUser");
-    if (currentUser != null) {
-      model.addAttribute("authorized", currentUser.isAdmin());
+  public String recipesIndex(Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
     }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
 
     List<Recipe> recipes = recipeService.findAll();
     model.addAttribute("recipes", recipes);
@@ -67,18 +70,23 @@ public class RecipeController {
   }
 
   @PostMapping("/recipes/{id}/favorite")
-  public String favoriteRecipe(@PathVariable Long id, Model model, HttpServletRequest request) {
-    User currentUser = (User) model.asMap().get("currentUser");
+  public String favoriteRecipe(@PathVariable Long id, Model model, HttpServletRequest request, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
     Recipe recipe = recipeService.findOne(id);
 
-    if (currentUser.getFavoriteRecipes().contains(recipe)) {
-      currentUser.removeFavoriteRecipe(recipe);
+    if (user.getFavoriteRecipes().contains(recipe)) {
+      user.removeFavoriteRecipe(recipe);
     }
     else {
-      currentUser.addFavoriteRecipe(recipe);
+      user.addFavoriteRecipe(recipe);
     }
 
-    userService.save(currentUser);
+    userService.save(user);
     return "redirect:" + request.getHeader("Referer");
   }
 
@@ -132,9 +140,14 @@ public class RecipeController {
   }
 
   @PostMapping("/recipes/create")
-  public String createRecipe(@RequestParam MultipartFile imageFile, Recipe recipe, Model model) {
-    User currentUser = (User) model.asMap().get("currentUser");
-    recipe.setAuthor(currentUser);
+  public String createRecipe(@RequestParam MultipartFile imageFile, Recipe recipe, Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
+    recipe.setAuthor(user);
     recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
     try {
       byte[] image = imageFile.getBytes();
@@ -144,8 +157,8 @@ public class RecipeController {
       e.printStackTrace();
     }
 
-    recipeService.save(recipe, currentUser);
-    userService.save(currentUser);
+    recipeService.save(recipe, user);
+    userService.save(user);
 
     return "redirect:/recipes/" + recipe.getId();
   }
@@ -184,10 +197,14 @@ public class RecipeController {
   }
 
   @DeleteMapping(path = "/recipes/{id}/delete")
-  public String deleteRecipe(@PathVariable Long id, Model model) {
-    User currentUser = (User) model.asMap().get("currentUser");
+  public String deleteRecipe(@PathVariable Long id, Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
     Recipe recipe = recipeService.findOne(id);
-    recipeService.delete(recipe, currentUser);
+    recipeService.delete(recipe, user);
     return "redirect:/";
   }
 }

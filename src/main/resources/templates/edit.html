@@ -195,10 +195,10 @@
                     </div>
 
                     <div class="step-row" th:each="step, stat : *{steps}">
-                        <input type="hidden" name="id"  th:field="*{steps[__${stat.index}__]}" />
+                        <input type="hidden" name="id"  th:field="*{steps[__${stat.index}__].id}" />
                         <div class="prefix-20 grid-80">
                             <p>
-                                <input type="text" name="stepName" th:field="*{steps[__${stat.index}__]}"/>
+                                <input type="text" name="stepName" th:field="*{steps[__${stat.index}__].name}"/>
                             </p>
                         </div>
                     </div>
@@ -218,5 +218,9 @@
         </div> <!-- recipes -->
     </div> <!-- grid-100 -->
 </div> <!-- grid-container -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+
 </body>
 </html>

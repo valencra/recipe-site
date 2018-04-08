@@ -9,7 +9,7 @@ $('#add-ingredient').click(function() {
                          '</p> </div>' +
                          '<div class="grid-10 suffix-10">' +
                          '<p> <input type="text" id="ingredients' + index + '.quantity" name="ingredients[' + index + '].quantity" />' +
-                         '</p> </div>'
+                         '</p> </div>' +
                          '</div>'
     $("#add-ingredient-row" ).before(newRow);
 });

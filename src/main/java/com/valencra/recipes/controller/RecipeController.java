@@ -154,7 +154,6 @@ public class RecipeController {
     User user = userService.findByUsername(authentication.getName());
     model.addAttribute("user", user);
     recipe.setAuthor(user);
-    recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
     try {
       byte[] image = imageFile.getBytes();
       recipe.setImage(image);
@@ -187,7 +186,6 @@ public class RecipeController {
   public String editRecipe(@PathVariable Long id, @RequestParam MultipartFile imageFile, Recipe recipe) {
     User author = recipeService.findOne(id).getAuthor();
     recipe.setAuthor(author);
-    recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
     try {
       byte[] image = imageFile.getBytes();
       recipe.setImage(image);

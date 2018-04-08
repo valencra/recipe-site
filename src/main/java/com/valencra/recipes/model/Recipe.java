@@ -1,17 +1,14 @@
 package com.valencra.recipes.model;
 
-import com.valencra.recipes.enums.Category;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Recipe extends BaseEntity {
@@ -25,11 +22,11 @@ public class Recipe extends BaseEntity {
   @Lob
   private byte[] image;
 
-  @ManyToMany
+  @OneToMany
   private List<Ingredient> ingredients;
 
-  @ElementCollection
-  private List<String> instructions;
+  @OneToMany
+  private List<Step> steps;
 
   private Integer preparationTime;
 
@@ -42,7 +39,7 @@ public class Recipe extends BaseEntity {
   public Recipe() {
     super();
     ingredients = new ArrayList<>();
-    instructions = new ArrayList<>();
+    steps = new ArrayList<>();
   }
 
   public Recipe(String name, String description, String category, byte[] image,
@@ -105,20 +102,20 @@ public class Recipe extends BaseEntity {
     ingredients.remove(ingredient);
   }
 
-  public List<String> getInstructions() {
-    return instructions;
+  public List<Step> getSteps() {
+    return steps;
   }
 
-  public void setInstructions(List<String> instructions) {
-    this.instructions = instructions;
+  public void setSteps(List<Step> steps) {
+    this.steps = steps;
   }
 
-  public void addInstruction(String instruction) {
-    instructions.add(instruction);
+  public void addStep(Step step) {
+    steps.add(step);
   }
 
-  public void removeInstruction(String instruction) {
-    instructions.remove(instruction);
+  public void removeStep(Step step) {
+    steps.remove(step);
   }
 
   public Integer getPreparationTime() {
@@ -157,7 +154,7 @@ public class Recipe extends BaseEntity {
         ", category=" + category +
         ", image=" + Arrays.toString(image) +
         ", ingredients=" + ingredients +
-        ", instructions=" + instructions +
+        ", steps=" + steps +
         ", preparationTime=" + preparationTime +
         ", cookingTime=" + cookingTime +
         ", author=" + author +
@@ -178,7 +175,7 @@ public class Recipe extends BaseEntity {
         category.equals(recipe.category) &&
         Arrays.equals(image, recipe.image) &&
         Objects.equals(ingredients, recipe.ingredients) &&
-        Objects.equals(instructions, recipe.instructions) &&
+        Objects.equals(steps, recipe.steps) &&
         Objects.equals(preparationTime, recipe.preparationTime) &&
         Objects.equals(cookingTime, recipe.cookingTime) &&
         Objects.equals(author, recipe.author);
@@ -189,7 +186,7 @@ public class Recipe extends BaseEntity {
 
     int
         result =
-        Objects.hash(name, description, category, ingredients, instructions, preparationTime,
+        Objects.hash(name, description, category, ingredients, steps, preparationTime,
             cookingTime, author);
     result = 31 * result + Arrays.hashCode(image);
     return result;

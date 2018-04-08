@@ -194,11 +194,11 @@
                         </p>
                     </div>
 
-                    <div class="step-row" th:each="step, stat : *{instructions}">
-                        <input type="hidden" name="id"  th:field="*{instructions[__${stat.index}__]}" />
+                    <div class="step-row" th:each="step, stat : *{steps}">
+                        <input type="hidden" name="id"  th:field="*{steps[__${stat.index}__]}" />
                         <div class="prefix-20 grid-80">
                             <p>
-                                <input type="text" name="stepName" th:field="*{instructions[__${stat.index}__]}"/>
+                                <input type="text" name="stepName" th:field="*{steps[__${stat.index}__]}"/>
                             </p>
                         </div>
                     </div>

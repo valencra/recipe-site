@@ -2,6 +2,7 @@ package com.valencra.recipes.model;
 
 import com.valencra.recipes.model.BaseEntity;
 
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -15,9 +16,6 @@ public class Ingredient extends BaseEntity {
   private Double quantity;
 
   private String measurement;
-
-  @ManyToOne
-  private Recipe recipe;
 
   protected Ingredient() {
     super();
@@ -62,11 +60,24 @@ public class Ingredient extends BaseEntity {
     this.measurement = measurement;
   }
 
-  public Recipe getRecipe() {
-    return recipe;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Ingredient that = (Ingredient) o;
+    return Objects.equals(name, that.name) &&
+        Objects.equals(condition, that.condition) &&
+        Objects.equals(quantity, that.quantity) &&
+        Objects.equals(measurement, that.measurement);
   }
 
-  public void setRecipe(Recipe recipe) {
-    this.recipe = recipe;
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(name, condition, quantity, measurement);
   }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="layout :: head"></head>
+
+<body>
+
+<div th:replace="layout :: home"></div>
+
+<section>
+    <div class="container wrapper">
+        <form>
+            <h2 th:text="|${#httpServletRequest.getAttribute('javax.servlet.error.status_code')} Error|">
+                500 Error</h2>
+            <div th:if="${#httpServletRequest.getAttribute('javax.servlet.error.exception')} != null">
+                <code th:text="${#httpServletRequest.getAttribute('javax.servlet.error.exception')}">Error
+                                                                                                     Message</code>
+            </div>
+            <br>
+        </form>
+    </div>
+</section>
+
+</body>
+
+</html>

@@ -154,38 +154,28 @@
                         </p>
                     </div>
 
-                    <div th:each="ingredient: *{ingredients}">
-                        <div class="ingredient-row"
-                             th:id="'ingredientNumber' + ${ingredientStat.index}">
-                            <div class="prefix-20 grid-20">
-                                <input type="hidden"
-                                       th:field="*{ingredients[__${ingredientStat.index}__].id}"/>
-                                <p>
-                                    <input th:field="*{ingredients[__${ingredientStat.index}__].name}"/>
-                                </p>
-                            </div>
-                            <div class="grid-20">
-                                <p>
-                                    <input th:field="*{ingredients[__${ingredientStat.index}__].condition}"/>
-                                </p>
-                            </div>
-                            <div class="grid-10">
-                                <p>
-                                    <input class="quantity"
-                                           th:field="*{ingredients[__${ingredientStat.index}__].quantity}"/>
-                                </p>
-                            </div>
-                            <div class="prefix-5 grid-20">
-                                <p>
-                                    <input th:field="*{ingredients[__${ingredientStat.index}__].measurement}"/>
-                                </p>
-                            </div>
+                    <div class="ingredient-row" th:each="ingredient, stat : *{ingredients}">
+                        <input type="hidden" th:field="*{ingredients[__${stat.index}__].id}" />
+                        <div class="prefix-20 grid-30">
+                            <p>
+                                <input type="text" th:field="*{ingredients[__${stat.index}__].name}"/>
+                            </p>
+                        </div>
+                        <div class="grid-30">
+                            <p>
+                                <input type="text" th:field="*{ingredients[__${stat.index}__].condition}"/>
+                            </p>
+                        </div>
+                        <div class="grid-10 suffix-10">
+                            <p>
+                                <input type="text" th:field="*{ingredients[__${stat.index}__].quantity}"/>
+                            </p>
                         </div>
                     </div>
-                    <div id="newIngredientButton" class="prefix-20 grid-80 add-row">
+
+                    <div id="add-ingredient-row"  class="prefix-20 grid-80 add-row">
                         <p>
-                            <button type="button" id="newIngredient">+ Add Another Ingredient
-                            </button>
+                            <button id="add-ingredient" type="button">+ Add Ingredient</button>
                         </p>
                     </div>
 
@@ -204,18 +194,18 @@
                         </p>
                     </div>
 
-                    <div class="step-row" th:each="instruction: *{instructions}">
-                        <div class="grid-80">
+                    <div class="step-row" th:each="step, stat : *{instructions}">
+                        <input type="hidden" name="id"  th:field="*{instructions[__${stat.index}__]}" />
+                        <div class="prefix-20 grid-80">
                             <p>
-                                <input style="margin-left: 147px"
-                                       th:field="*{instructions[__${instructionStat.index}__]}"/>
+                                <input type="text" name="stepName" th:field="*{instructions[__${stat.index}__]}"/>
                             </p>
                         </div>
                     </div>
 
-                    <div id="newStepButton" class="prefix-20 grid-80 add-row">
+                    <div id="add-step-row" class="prefix-20 grid-80 add-row">
                         <p>
-                            <button id="newStep" type="button">+ Add Another Step</button>
+                            <button id="add-step" type="button">+ Add Step</button>
                         </p>
                     </div>
 

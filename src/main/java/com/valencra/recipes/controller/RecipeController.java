@@ -126,7 +126,13 @@ public class RecipeController {
   }
 
   @GetMapping("/recipes/create-form")
-  public String createRecipeForm(Model model) {
+  public String createRecipeForm(Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
     Recipe recipe = new Recipe();
 
     model.addAttribute("recipe", recipe);

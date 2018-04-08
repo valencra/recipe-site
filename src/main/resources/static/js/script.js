@@ -11,7 +11,7 @@ $('#add-ingredient').click(function() {
                          '<p> <input type="text" id="ingredients' + ingredientCount + '.quantity" name="ingredients[' + ingredientCount + '].quantity" />' +
                          '</p> </div>' +
                          '</div>'
-    $("#add-ingredient-row" ).before(newRow);
+    $("#add-ingredient-row" ).before(ingredientRow);
 });
 
 $('#add-step').click(function() {
@@ -23,5 +23,5 @@ $('#add-step').click(function() {
                    '</p>' +
                    '</div>' +
                    '</div>'
-    $("#add-step-row" ).before(newRow);
+    $("#add-step-row" ).before(stepRow);
 });

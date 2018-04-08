@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -22,10 +24,12 @@ public class Recipe extends BaseEntity {
   @Lob
   private byte[] image;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "recipe_id")
   private List<Ingredient> ingredients;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "recipe_id")
   private List<Step> steps;
 
   private Integer preparationTime;

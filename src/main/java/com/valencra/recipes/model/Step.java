@@ -7,10 +7,6 @@ import javax.persistence.Entity;
 public class Step extends BaseEntity {
   private String name;
 
-  protected Step() {
-    super();
-  }
-
   public Step(String name) {
     this.name = name;
   }

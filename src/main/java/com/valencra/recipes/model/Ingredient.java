@@ -15,17 +15,10 @@ public class Ingredient extends BaseEntity {
 
   private Double quantity;
 
-  private String measurement;
-
-  protected Ingredient() {
-    super();
-  }
-
-  public Ingredient(String name, String condition, Double quantity, String measurement) {
+  public Ingredient(String name, String condition, Double quantity) {
     this.name = name;
     this.condition = condition;
     this.quantity = quantity;
-    this.measurement = measurement;
   }
 
   public String getName() {
@@ -52,14 +45,6 @@ public class Ingredient extends BaseEntity {
     this.quantity = quantity;
   }
 
-  public String getMeasurement() {
-    return measurement;
-  }
-
-  public void setMeasurement(String measurement) {
-    this.measurement = measurement;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -71,13 +56,12 @@ public class Ingredient extends BaseEntity {
     Ingredient that = (Ingredient) o;
     return Objects.equals(name, that.name) &&
         Objects.equals(condition, that.condition) &&
-        Objects.equals(quantity, that.quantity) &&
-        Objects.equals(measurement, that.measurement);
+        Objects.equals(quantity, that.quantity);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(name, condition, quantity, measurement);
+    return Objects.hash(name, condition, quantity);
   }
 }

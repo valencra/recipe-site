@@ -5,87 +5,97 @@
 
 <body>
 
-  <nav th:replace="layout :: nav-auth"></nav>
+<nav th:replace="layout :: nav-auth"></nav>
 
-  <div class="grid-container">
+<div class="grid-container">
 
     <div th:replace="layout :: home"></div>
 
     <div class="grid-100">
 
-      <div class="recipes">
+        <div class="recipes">
 
-        <div class="grid-100 row controls">
-          <form action="/recipes/search" method="get">
-            <div class="grid-20">
-              <select>
-                <option value="">All Categories</option>
-                <option th:each="category: ${categories}"
-                        th:value="${category.name}"
-                        th:text="${category.name}">
-                  Category Name
-                </option>
-              </select>
-            </div>
+            <div class="grid-100 row controls">
+                <form action="/recipes/search" method="get">
 
-            <div class="grid-40">
-              <input placeholder="Search" th:value="${query}"></input>
-            </div>
+                    <div class="grid-15">
+                        <select>
+                            <option value="">Categories</option>
+                            <option th:each="category: ${categories}"
+                                    th:value="${category.name}"
+                                    th:text="${category.name}">
+                                Category Name
+                            </option>
+                        </select>
+                    </div>
 
-            <div class="grid-15">
-              <select>
-                <option value="">Filter By</option>
-                <option th:each="filter: ${filters}"
-                        th:value="${filter}"
-                        th:text="${filter}">
-                  Filter Field
-                </option>
-              </select>
-            </div>
+                    <div class="grid-30">
+                        <input placeholder="Search" th:value="${query}"></input>
+                    </div>
 
-            <div class="grid-25">
-              <div class="flush-right">
-                <form action="/recipes/create-form">
-                  <button>+ Add Recipe</button>
+                    <div class="grid-15">
+                        <select>
+                            <option value="">Filter</option>
+                            <option th:each="filter: ${filters}"
+                                    th:value="${filter}"
+                                    th:text="${filter}">
+                                Filter Field
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="grid-20">
+                        <div class="flush-right">
+                            <button>Search</button>
+                        </div>
+                    </div>
+
                 </form>
-              </div>
+
+                <div class="grid-20">
+                    <div class="flush-right">
+                        <form action="/recipes/create-form">
+                            <button>+ Add Recipe</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-          </form>
         </div>
-
-        </div> <div class="clear"></div>
+        <div class="clear"></div>
 
         <div class="grid-100 row addHover" th:each="recipe : ${recipes}">
-          <div class="grid-70">
-            <p>
-              <form th:replace="layout :: favorite"></form>
-              <a th:href="@{/recipes/${recipe.id}}" th:text="${recipe.name}"></a>
-            </p>
-          </div>
-
-          <div class="hoverBlock" th:if="${authenticated}>
-            <div class="grid-30">
-              <div class="flush-right">
+            <div class="grid-70">
                 <p>
-                  <a th:href="@{/recipes/${recipe.id}/edit-form}">
-                    <img th:src="@{/images/edit.svg}" height="12px"/> Edit
-                  </a>
-                  <form th:action="@{/recipes/${recipe.id}/delete}" method="delete">
-                    <button type="submit">
-                      <img th:src="@{/images/delete.svg}" height="12px"/> Delete
-                    </button>
-                  </form>
+                <form th:replace="layout :: favorite"></form>
+                <a th:href="@{/recipes/${recipe.id}}" th:text="${recipe.name}"></a>
                 </p>
-              </div>
             </div>
-          </div>
-        </div> <div class="clear"></div>
 
-        <div class="row">&nbsp;</div>
+            <div class="hoverBlock" th:if="${authenticated}>
+            <div class=" grid-30
+            ">
+            <div class="flush-right">
+                <p>
+                    <a th:href="@{/recipes/${recipe.id}/edit-form}">
+                        <img th:src="@{/images/edit.svg}" height="12px"/> Edit
+                    </a>
+                <form th:action="@{/recipes/${recipe.id}/delete}" method="delete">
+                    <button type="submit">
+                        <img th:src="@{/images/delete.svg}" height="12px"/> Delete
+                    </button>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
 
-      </div> <!-- recipes -->
-    </div> <!-- grid-100 -->
-  </div> <!-- grid-container -->
+<div class="row">&nbsp;</div>
+
+</div> <!-- recipes -->
+</div> <!-- grid-100 -->
+</div> <!-- grid-container -->
 </body>
 </html>

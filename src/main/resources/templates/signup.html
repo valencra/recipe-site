@@ -5,45 +5,51 @@
 
 <body>
 
-  <nav th:replace="layout :: nav-unknown"></nav>
+<nav th:replace="layout :: nav-unknown"></nav>
 
-  <div class="grid-container">
+<div class="grid-container">
 
     <div th:replace="layout :: home"></div>
 
     <div class="grid-100">
-      <div class="recipes">
-        <form th:action="@{/signup}" method="post" th:object="${user}">
-          <input type="hidden" th:field="*{id}"/>
-          <input type="hidden" th:field="*{version}"/>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input th:field="*{name}" placeholder="Name"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input th:field="*{username}" placeholder="Username"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input th:field="*{password}" placeholder="Password" type="password"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input placeholder="Password Again" type="password"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <button>Sign-up</button>
-            </p>
-          </div> <div class="clear"></div>
-        </form>
-      </div> <!-- recipes -->
+        <div class="recipes">
+            <form th:action="@{/signup}" method="post" th:object="${user}">
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{version}"/>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input th:field="*{name}" placeholder="Name"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input th:field="*{username}" placeholder="Username"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input th:field="*{password}" placeholder="Password"
+                               type="password"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input placeholder="Password Again" type="password"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <button>Sign-up</button>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </form>
+        </div> <!-- recipes -->
     </div> <!-- grid-100 -->
-  </div> <!-- grid-container -->
+</div> <!-- grid-container -->
 </body>
 </html>

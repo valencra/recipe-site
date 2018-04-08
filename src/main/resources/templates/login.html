@@ -5,37 +5,41 @@
 
 <body>
 
-  <nav th:replace="layout :: nav-unknown"></nav>
+<nav th:replace="layout :: nav-unknown"></nav>
 
-  <div class="grid-container">
+<div class="grid-container">
 
     <div th:replace="layout :: home"></div>
 
     <div class="grid-100">
-      <div class="recipes">
+        <div class="recipes">
 
-        <form th:action="@{/login}" method="post" th:object="${user}">
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input placeholder="Username" th:field="*{username}"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <input placeholder="Password" type="password" th:field="*{password}"> </input>
-            </p>
-          </div> <div class="clear"></div>
-          <div class="prefix-20 grid-60 suffix-20">
-            <p>
-              <button>Login</button>
-            </p>
-          </div> <div class="clear"></div>
-        </form>
+            <form th:action="@{/login}" method="post" th:object="${user}">
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input placeholder="Username" th:field="*{username}"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <input placeholder="Password" type="password"
+                               th:field="*{password}"> </input>
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="prefix-20 grid-60 suffix-20">
+                    <p>
+                        <button>Login</button>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </form>
 
-      </div> <!-- recipes -->
+        </div> <!-- recipes -->
     </div> <!-- grid-100 -->
 
-  </div> <!-- grid-container -->
+</div> <!-- grid-container -->
 
 </body>
 

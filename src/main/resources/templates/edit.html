@@ -47,7 +47,9 @@
                     </div>
                     <div class="grid-40">
                         <p>
-                            <img th:if="${recipe.image}" th:src="@{'/recipes/'+${recipe.id}+'/image'}" height="256" width="256"/>
+                            <img th:if="${recipe.image}"
+                                 th:src="@{'/recipes/'+${recipe.id}+'/image'}" height="256"
+                                 width="256"/>
                             <input type="file" name="imageFile" id="imageFile"/>
                         </p>
                     </div>
@@ -153,9 +155,11 @@
                     </div>
 
                     <div th:each="ingredient: *{ingredients}">
-                        <div class="ingredient-row" th:id="'ingredientNumber' + ${ingredientStat.index}">
+                        <div class="ingredient-row"
+                             th:id="'ingredientNumber' + ${ingredientStat.index}">
                             <div class="prefix-20 grid-20">
-                                <input type="hidden" th:field="*{ingredients[__${ingredientStat.index}__].id}"/>
+                                <input type="hidden"
+                                       th:field="*{ingredients[__${ingredientStat.index}__].id}"/>
                                 <p>
                                     <input th:field="*{ingredients[__${ingredientStat.index}__].name}"/>
                                 </p>
@@ -167,7 +171,8 @@
                             </div>
                             <div class="grid-10">
                                 <p>
-                                    <input class="quantity" th:field="*{ingredients[__${ingredientStat.index}__].quantity}"/>
+                                    <input class="quantity"
+                                           th:field="*{ingredients[__${ingredientStat.index}__].quantity}"/>
                                 </p>
                             </div>
                             <div class="prefix-5 grid-20">
@@ -179,7 +184,8 @@
                     </div>
                     <div id="newIngredientButton" class="prefix-20 grid-80 add-row">
                         <p>
-                            <button type="button" id="newIngredient">+ Add Another Ingredient</button>
+                            <button type="button" id="newIngredient">+ Add Another Ingredient
+                            </button>
                         </p>
                     </div>
 
@@ -201,7 +207,8 @@
                     <div class="step-row" th:each="instruction: *{instructions}">
                         <div class="grid-80">
                             <p>
-                                <input style="margin-left: 147px" th:field="*{instructions[__${instructionStat.index}__]}"/>
+                                <input style="margin-left: 147px"
+                                       th:field="*{instructions[__${instructionStat.index}__]}"/>
                             </p>
                         </div>
                     </div>

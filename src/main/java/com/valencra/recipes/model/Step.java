@@ -11,6 +11,11 @@ public class Step extends BaseEntity {
     this.name = name;
   }
 
+  public Step()
+  {
+    this(null);
+  }
+
   public String getName() {
     return name;
   }

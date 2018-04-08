@@ -21,6 +21,11 @@ public class Ingredient extends BaseEntity {
     this.quantity = quantity;
   }
 
+  public Ingredient()
+  {
+    this(null, null, null);
+  }
+
   public String getName() {
     return name;
   }

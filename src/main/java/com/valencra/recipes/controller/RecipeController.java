@@ -1,7 +1,9 @@
 package com.valencra.recipes.controller;
 
 import com.valencra.recipes.enums.Category;
+import com.valencra.recipes.model.Ingredient;
 import com.valencra.recipes.model.Recipe;
+import com.valencra.recipes.model.Step;
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.IngredientService;
 import com.valencra.recipes.service.RecipeService;
@@ -134,6 +136,8 @@ public class RecipeController {
     User user = userService.findByUsername(authentication.getName());
     model.addAttribute("user", user);
     Recipe recipe = new Recipe();
+    recipe.getSteps().add(new Step());
+    recipe.getIngredients().add(new Ingredient());
 
     model.addAttribute("recipe", recipe);
     model.addAttribute("categories", Category.values());

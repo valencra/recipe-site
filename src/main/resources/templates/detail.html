@@ -18,8 +18,8 @@
             <div class="grid-100 row controls">
                 <div class="grid-50">
                     <h2 th:text="${recipe.name}">Recipe name</h2>
-                    <a th:href="@{/users/${recipe.author.id}}"><h3
-                            th:text="|by ${recipe.author.username}|">Author</h3></a>
+                    <a th:href="@{|/users/${recipe.author.id}|}"><h3
+                            th:text="|by ${recipe.author.name}|">Author</h3></a>
                 </div>
                 <div class="grid-50">
                     <h2 class="flush-right">

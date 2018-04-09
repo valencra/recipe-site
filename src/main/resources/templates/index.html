@@ -68,7 +68,7 @@
             <div class="grid-70">
                 <p>
                 <form th:replace="layout :: favorite"></form>
-                <a th:href="@{/recipes/${recipe.id}}" th:text="${recipe.name}"></a>
+                <a th:href="@{|/recipes/${recipe.id}|}" th:text="${recipe.name}"></a>
                 </p>
             </div>
 

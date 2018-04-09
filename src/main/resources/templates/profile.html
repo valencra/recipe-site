@@ -1,98 +1,86 @@
 <!doctype html>
 <html lang="en">
-<head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-
-  <title>Chandra S. | My Recipes</title>
-
-  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/unsemantic-grid-responsive.css">
-  <link rel="stylesheet" href="css/styles.css">
-
-</head>
+<head th:replace="layout :: head"></head>
 
 <body>
 
-  <nav>
-    <a href="profile.html">
-      Chandra S.
-    </a>
-    &bull;
-    <a href="login.html">
-      logout
-    </a>
-  </nav>
+<nav th:replace="layout :: nav-auth"></nav>
 
-  <div class="grid-container">
+<div class="grid-container">
 
-    <div class="grid-100">
-      <a href="index.html">
-        <h1>
-          <img src="images/chefbot.svg" height="60px">
-          <br>
-          My Recipes
-        </h1>
-      </a>
-    </div>
+    <div th:replace="layout :: home"></div>
 
     <div class="grid-100">
 
-      <div class="recipes">
+        <div class="recipes">
 
-        <div class="grid-100 row controls">
-          <div class="grid-100">
-            <h2> Chandra S. </h2>
-          </div>
-        </div> <div class="clear"></div>
-
-        <div class="grid-100 row addHover">
-          <a href="detail.html">
-            <div class="grid-70">
-              <p>
-                <span><img src="images/favorited.svg" height="12px"> </span>
-                Broiche French Toast with Nutella
-              </p>
+            <div class="grid-100 row controls">
+                <div class="grid-100">
+                    <h2 th:text="${viewedUser.name}">Name</h2>
+                </div>
             </div>
-          </a>
-          <div class="hoverBlock">
-            <div class="grid-30">
-              <div class="flush-right">
-                <p>
-                  <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
-                  <a href="#"> <img src="images/delete.svg" height="12px"> Delete </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> <div class="clear"></div>
+            <div class="clear"></div>
 
-        <div class="grid-100 row addHover">
-          <a href="detail.html">
-            <div class="grid-70">
-              <p>
-                <span><img src="images/favorited.svg" height="12px"> </span>
-                Meyer Lemon French Toast
-              </p>
+            <div class="grid-100 row controls">
+                <div class="grid-100">
+                    <h2 style="text-align: center;">Favorite Recipes</h2>
+                </div>
             </div>
-          </a>
-          <div class="hoverBlock">
-            <div class="grid-30">
-              <div class="flush-right">
-                <p>
-                  <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
-                  <a href="#"> <img src="images/delete.svg" height="12px"> Delete </a>
-                </p>
-              </div>
+            <div class="clear"></div>
+
+            <div class="grid-100 row addHover" th:each="favoriteRecipe : ${user.favoriteRecipes}">
+                <div class="grid-70">
+                    <p>
+              <span>
+                    <img src="/images/favorited.svg" height="12px"/>
+                    <a th:href="@{|/recipes/${favoriteRecipe.id}|}"
+                       th:text="${favoriteRecipe.name}"></a>
+                </span>
+                    </p>
+                </div>
             </div>
-          </div>
-        </div> <div class="clear"></div>
+            <div class="clear"></div>
 
-        <div class="row">&nbsp;</div>
+            <div class="grid-100 row controls">
+                <div class="grid-100">
+                    <h2 style="text-align: center;">User's Recipes</h2>
+                </div>
+            </div>
+            <div class="clear"></div>
 
-      </div> <!-- recipes -->
+            <div class="grid-100 row addHover" th:each="recipe : ${user.recipes}">
+
+                <div class="grid-70">
+                    <p>
+              <span>
+                    <a th:href="@{|/recipes/${recipe.id}|}" th:text="${recipe.name}"></a>
+                </span>
+                    </p>
+                </div>
+
+                <div class="grid-30">
+                    <div class="flush-right">
+                        <p>
+                            <a th:href="@{|/recipes/${recipe.id}/edit-form|}">
+                                <img th:src="@{/images/edit.svg}" height="12px"/>Edit
+                            </a>
+                        <form th:action="@{|/recipes/${recipe.id}/delete|}" method="post">
+                            <button type="submit">
+                                <img th:src="@{/images/delete.svg}" height="12px"/> Delete
+                            </button>
+                        </form>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+
+            <div class="row">&nbsp;</div>
+
+        </div> <!-- recipes -->
     </div> <!-- grid-100 -->
-  </div> <!-- grid-container -->
+</div> <!-- grid-container -->
 </body>
 </html>

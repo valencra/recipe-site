@@ -48,14 +48,21 @@ public class UserController {
     }
     User user = userService.findByUsername(authentication.getName());
     model.addAttribute("user", user);
+    model.addAttribute("viewedUser", user);
     model.addAttribute("authorized", true);
     return "profile";
   }
 
   @GetMapping("/users/{id}")
-  public String userProfile(@PathVariable Long id, Model model) {
-    User user = userService.findOne(id);
+  public String userProfile(@PathVariable Long id, Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
     model.addAttribute("user", user);
+    User viewedUser = userService.findOne(id);
+    model.addAttribute("viewedUser", viewedUser);
     return "profile";
   }
 }

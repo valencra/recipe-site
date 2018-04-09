@@ -18,7 +18,7 @@
             <div class="grid-100 row controls">
                 <form action="/recipes/search" method="get">
 
-                    <div class="grid-15">
+                    <div class="grid-20">
                         <select>
                             <option value="">Categories</option>
                             <option th:each="category: ${categories}"
@@ -33,7 +33,7 @@
                         <input placeholder="Search" th:value="${query}"></input>
                     </div>
 
-                    <div class="grid-15">
+                    <div class="grid-20">
                         <select>
                             <option value="">Filter</option>
                             <option th:each="filter: ${filters}"
@@ -44,15 +44,9 @@
                         </select>
                     </div>
 
-                    <div class="grid-20">
-                        <div class="flush-right">
-                            <button>Search</button>
-                        </div>
-                    </div>
-
                 </form>
 
-                <div class="grid-20">
+                <div class="grid-30">
                     <div class="flush-right">
                         <form action="/recipes/create-form">
                             <button>+ Add Recipe</button>

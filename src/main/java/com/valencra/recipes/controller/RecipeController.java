@@ -104,7 +104,13 @@ public class RecipeController {
       @RequestParam(required = false) String query,
       @RequestParam(required = false) String field,
       @RequestParam(required = false) String category,
-      Model model) {
+      Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
     List<Recipe> recipes = recipeService.findAll();
 
     if (query != null && !query.trim().equals("")) {
@@ -129,6 +135,7 @@ public class RecipeController {
 
     model.addAttribute("recipes", recipes);
     model.addAttribute("categories", Category.values());
+    model.addAttribute("filters", SEARCH_FILTERS);
 
     return "index";
 

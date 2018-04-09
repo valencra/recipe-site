@@ -59,7 +59,14 @@ public class RecipeController {
   }
 
   @GetMapping("/recipes/{id}")
-  public String recipeDetail(@PathVariable Long id, Model model) {
+  public String recipeDetail(@PathVariable Long id, Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
+
     Recipe recipe = recipeService.findOne(id);
     model.addAttribute("recipe", recipe);
     return "detail";

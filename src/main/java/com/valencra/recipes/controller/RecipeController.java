@@ -187,9 +187,15 @@ public class RecipeController {
   }
 
   @GetMapping("/recipes/{id}/edit-form")
-  public String editRecipeForm(@PathVariable Long id, Model model) {
-    Recipe recipe = recipeService.findOne(id);
+  public String editRecipeForm(@PathVariable Long id, Model model, Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      return "redirect:/login";
+    }
+    User user = userService.findByUsername(authentication.getName());
+    model.addAttribute("user", user);
 
+    Recipe recipe = recipeService.findOne(id);
     model.addAttribute("recipe", recipe);
     model.addAttribute("categories", Category.values());
     model.addAttribute("redirect", "/recipes/" + id);

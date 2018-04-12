@@ -65,7 +65,7 @@
                             <a th:href="@{|/recipes/${recipe.id}/edit-form|}">
                                 <img th:src="@{/images/edit.svg}" height="12px"/>Edit
                             </a>
-                        <form th:action="@{|/recipes/${recipe.id}/delete|}" method="delete">
+                        <form th:action="@{|/recipes/${recipe.id}/delete|}" method="post">
                             <button type="submit">
                                 <img th:src="@{/images/delete.svg}" height="12px"/> Delete
                             </button>

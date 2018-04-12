@@ -224,7 +224,7 @@ public class RecipeController {
     return "redirect:/recipes/" + recipe.getId();
   }
 
-  @DeleteMapping(path = "/recipes/{id}/delete")
+  @PostMapping(path = "/recipes/{id}/delete")
   public String deleteRecipe(@PathVariable Long id, Model model, Authentication authentication) {
     if (authentication == null || !authentication.isAuthenticated())
     {

@@ -102,7 +102,7 @@ public class RecipeController {
   @GetMapping("/recipes/search")
   public String searchRecipes(
       @RequestParam(required = false) String query,
-      @RequestParam(required = false) String field,
+      @RequestParam(required = false) String filter,
       @RequestParam(required = false) String category,
       Model model, Authentication authentication) {
     if (authentication == null || !authentication.isAuthenticated())
@@ -114,7 +114,7 @@ public class RecipeController {
     List<Recipe> recipes = recipeService.findAll();
 
     if (query != null && !query.trim().equals("")) {
-      switch (field) {
+      switch (filter) {
         case "name":
           recipes = recipeService.findByNameContaining(query);
           break;
@@ -125,12 +125,12 @@ public class RecipeController {
           recipes = recipeService.findByIngredient(query);
           break;
       }
+    }
 
-      if (category != null && !category.trim().equals("")) {
-        recipes = recipes.stream()
-            .filter(recipe -> recipe.getCategory().equals(category))
-            .collect(Collectors.toList());
-      }
+    if (category != null && !category.trim().equals("")) {
+      recipes = recipes.stream()
+          .filter(recipe -> recipe.getCategory().equals(category))
+          .collect(Collectors.toList());
     }
 
     model.addAttribute("recipes", recipes);

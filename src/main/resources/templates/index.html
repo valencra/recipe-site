@@ -19,7 +19,7 @@
                 <form action="/recipes/search" method="get">
 
                     <div class="grid-20">
-                        <select>
+                        <select name="category">
                             <option value="">Categories</option>
                             <option th:each="category: ${categories}"
                                     th:value="${category.name}"
@@ -30,11 +30,11 @@
                     </div>
 
                     <div class="grid-30">
-                        <input placeholder="Search" th:value="${query}"></input>
+                        <input name="query" placeholder="Search" th:value="${query}"></input>
                     </div>
 
                     <div class="grid-20">
-                        <select>
+                        <select name="filter">
                             <option value="">Filter</option>
                             <option th:each="filter: ${filters}"
                                     th:value="${filter}"

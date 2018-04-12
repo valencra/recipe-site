@@ -24,7 +24,7 @@ public class IngredientServiceImplTest {
   private IngredientService ingredientService = new IngredientServiceImpl();
 
   @Test
-  public void findAll() {
+  public void findAllFindsAll() {
     List<Ingredient> expectedIngredients = Arrays.asList(new Ingredient("Ingredient", "Condition", 1.0));
     when(ingredientRepository.findAll())
         .thenReturn(expectedIngredients);
@@ -35,7 +35,7 @@ public class IngredientServiceImplTest {
   }
 
   @Test
-  public void findOne() {
+  public void findOneFindOneFindsById() {
     Ingredient expectedIngredient = new Ingredient("Ingredient", "Condition", 1.0);
     long testId = 1L;
     when(ingredientRepository.findOne(testId))
@@ -47,7 +47,7 @@ public class IngredientServiceImplTest {
   }
 
   @Test
-  public void findByName() {
+  public void findByNameFindsByName() {
     Ingredient expectedIngredient = new Ingredient("Ingredient", "Condition", 1.0);
     String testName = "Ingredient";
     when(ingredientRepository.findByName(testName))

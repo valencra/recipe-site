@@ -204,4 +204,22 @@ public class RecipeControllerTest {
         .andExpect(model().attribute("action", "/recipes/create"))
         .andExpect(model().attribute("submit", "Create"));
   }
+
+  @Test
+  public void recipeEditFormRenders() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findOne(TEST_RECIPE_1_ID)).thenReturn(TEST_RECIPE_1);
+
+    mockMvc.perform(get(String.format("/recipes/%d/edit-form", TEST_RECIPE_1_ID.intValue())).principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("edit"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipe", TEST_RECIPE_1))
+        .andExpect(model().attribute("categories", Category.values()))
+        .andExpect(model().attribute("redirect", String.format("/recipes/%d", TEST_RECIPE_1_ID.intValue())))
+        .andExpect(model().attribute("heading", "Edit Recipe"))
+        .andExpect(model().attribute("action", String.format("/recipes/%d/edit", TEST_RECIPE_1_ID.intValue())))
+        .andExpect(model().attribute("submit", "Edit"));
+  }
 }

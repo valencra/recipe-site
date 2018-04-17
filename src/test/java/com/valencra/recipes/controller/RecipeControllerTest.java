@@ -66,16 +66,18 @@ public class RecipeControllerTest {
 
   private MockMvc mockMvc;
 
-  public static final String TEST_USERNAME = "user";
+  private static final String TEST_USERNAME = "user";
 
-  public static final String TEST_PASSWORD = "password";
+  private static final String TEST_PASSWORD = "password";
 
-  public static final String TEST_ROLE = "USER";
+  private static final String TEST_ROLE = "USER";
 
-  public static final User TEST_USER =
+  private static final User TEST_USER =
       new User("Test", TEST_USERNAME, TEST_PASSWORD, new String[]{TEST_ROLE});
 
-  private final Recipe TEST_RECIPE = new Recipe(
+  private static Long TEST_RECIPE_ID = 1L;
+
+  private static final Recipe TEST_RECIPE = new Recipe(
       "test_name",
       "test_description",
       "test_category",
@@ -84,6 +86,12 @@ public class RecipeControllerTest {
       1,
       TEST_USER
   );
+
+  private static final List<GrantedAuthority> TEST_GRANTED_AUTHORITY_LIST =
+      new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
+
+  private static final Authentication TEST_AUTHENTICATION =
+      new UsernamePasswordAuthenticationToken(TEST_USERNAME, TEST_PASSWORD, TEST_GRANTED_AUTHORITY_LIST);
 
   @Before
   public void startMocks(){
@@ -96,20 +104,28 @@ public class RecipeControllerTest {
 
   @Test
   public void recipeIndexDisplaysAllRecipes() throws Exception {
-    List<GrantedAuthority> grantedAuthorityList =
-        new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
-    Authentication authentication =
-        new UsernamePasswordAuthenticationToken(TEST_USERNAME, TEST_PASSWORD, grantedAuthorityList);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
     when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
     final List<Recipe> expectedRecipes = Arrays.asList(TEST_RECIPE);
     when(recipeService.findAll()).thenReturn(expectedRecipes);
 
-    mockMvc.perform(get("/").principal(authentication))
+    mockMvc.perform(get("/").principal(TEST_AUTHENTICATION))
         .andExpect(status().isOk())
         .andExpect(view().name("index"))
         .andExpect(model().attribute("user", TEST_USER))
         .andExpect(model().attribute("recipes", expectedRecipes));
+  }
+
+  @Test
+  public void recipeDetailsDisplaysRecipeDetails() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findOne(TEST_RECIPE_ID)).thenReturn(TEST_RECIPE);
+
+    mockMvc.perform(get(String.format("/recipes/%d", TEST_RECIPE_ID.intValue())).principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("detail"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipe", TEST_RECIPE));
   }
 }

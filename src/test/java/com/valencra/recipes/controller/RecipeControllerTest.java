@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.valencra.recipes.enums.Category;
 import com.valencra.recipes.model.Recipe;
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.IngredientService;
@@ -186,5 +187,21 @@ public class RecipeControllerTest {
         .andExpect(view().name("index"))
         .andExpect(model().attribute("user", TEST_USER))
         .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_2)));
+  }
+
+  @Test
+  public void recipeCreateFormRenders() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+
+    mockMvc.perform(get("/recipes/create-form").principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("edit"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("categories", Category.values()))
+        .andExpect(model().attribute("redirect", "/"))
+        .andExpect(model().attribute("heading", "Create Recipe"))
+        .andExpect(model().attribute("action", "/recipes/create"))
+        .andExpect(model().attribute("submit", "Create"));
   }
 }

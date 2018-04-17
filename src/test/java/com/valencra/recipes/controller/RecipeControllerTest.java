@@ -51,16 +51,13 @@ public class RecipeControllerTest {
   private MockMvc mockMvc;
 
   private static final String TEST_USERNAME = "user";
-
   private static final String TEST_PASSWORD = "password";
-
   private static final String TEST_ROLE = "USER";
-
   private static final User TEST_USER =
       new User("Test", TEST_USERNAME, TEST_PASSWORD, new String[]{TEST_ROLE});
 
-  private static Long TEST_RECIPE_ID = 1L;
-
+  private static Long TEST_RECIPE_1_ID = 1L;
+  public static final String TEST_RECIPE_1_CATEGORY = "test_category";
   private static final Recipe TEST_RECIPE_1 = new Recipe(
       "test_name",
       "test_description",
@@ -71,10 +68,14 @@ public class RecipeControllerTest {
       TEST_USER
   );
 
+  public static final String TEST_RECIPE_2_NAME = "test_name_2";
+  public static final String TEST_RECIPE_2_DESCRIPTION = "test_description_2";
+  public static final String TEST_RECIPE_2_CATEGORY = "test_category_2";
+  public static final String TEST_RECIPE_2_INGREDIENT = "test_ingredient_2";
   private static final Recipe TEST_RECIPE_2 = new Recipe(
-      "test_name_2",
-      "test_description_2",
-      "test_category_2",
+      TEST_RECIPE_2_NAME,
+      TEST_RECIPE_2_DESCRIPTION,
+      TEST_RECIPE_2_CATEGORY,
       new byte[0],
       1,
       1,
@@ -86,7 +87,6 @@ public class RecipeControllerTest {
 
   private static final List<GrantedAuthority> TEST_GRANTED_AUTHORITY_LIST =
       new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
-
   private static final Authentication TEST_AUTHENTICATION =
       new UsernamePasswordAuthenticationToken(TEST_USERNAME, TEST_PASSWORD, TEST_GRANTED_AUTHORITY_LIST);
 
@@ -116,9 +116,9 @@ public class RecipeControllerTest {
   public void recipeDetailsDisplaysRecipeDetails() throws Exception {
     SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
     when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
-    when(recipeService.findOne(TEST_RECIPE_ID)).thenReturn(TEST_RECIPE_1);
+    when(recipeService.findOne(TEST_RECIPE_1_ID)).thenReturn(TEST_RECIPE_1);
 
-    mockMvc.perform(get(String.format("/recipes/%d", TEST_RECIPE_ID.intValue())).principal(TEST_AUTHENTICATION))
+    mockMvc.perform(get(String.format("/recipes/%d", TEST_RECIPE_1_ID.intValue())).principal(TEST_AUTHENTICATION))
         .andExpect(status().isOk())
         .andExpect(view().name("detail"))
         .andExpect(model().attribute("user", TEST_USER))
@@ -132,11 +132,59 @@ public class RecipeControllerTest {
     when(recipeService.findAll()).thenReturn(TEST_RECIPES);
 
     mockMvc.perform(get(String.format("/recipes/search?query=%s&filter=%s&category=%s",
-        "", "", "test_category"))
+        "", "", TEST_RECIPE_1_CATEGORY))
         .principal(TEST_AUTHENTICATION))
         .andExpect(status().isOk())
         .andExpect(view().name("index"))
         .andExpect(model().attribute("user", TEST_USER))
         .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_1)));
+  }
+
+  @Test
+  public void recipeSearchByNameQueryReturnsResultsCorrectly() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findAll()).thenReturn(TEST_RECIPES);
+    when(recipeService.findByNameContaining(TEST_RECIPE_2_NAME)).thenReturn(Arrays.asList(TEST_RECIPE_2));
+
+    mockMvc.perform(get(String.format("/recipes/search?query=%s&filter=%s&category=%s",
+        TEST_RECIPE_2_NAME, "name", ""))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("index"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_2)));
+  }
+
+  @Test
+  public void recipeSearchByDescriptionQueryReturnsResultsCorrectly() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findAll()).thenReturn(TEST_RECIPES);
+    when(recipeService.findByDescriptionContaining(TEST_RECIPE_2_DESCRIPTION)).thenReturn(Arrays.asList(TEST_RECIPE_2));
+
+    mockMvc.perform(get(String.format("/recipes/search?query=%s&filter=%s&category=%s",
+        TEST_RECIPE_2_DESCRIPTION, "description", ""))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("index"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_2)));
+  }
+
+  @Test
+  public void recipeSearchByIngredientQueryReturnsResultsCorrectly() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findAll()).thenReturn(TEST_RECIPES);
+    when(recipeService.findByIngredient(TEST_RECIPE_2_INGREDIENT)).thenReturn(Arrays.asList(TEST_RECIPE_2));
+
+    mockMvc.perform(get(String.format("/recipes/search?query=%s&filter=%s&category=%s",
+        TEST_RECIPE_2_INGREDIENT, "ingredient", ""))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("index"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_2)));
   }
 }

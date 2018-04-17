@@ -27,6 +27,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
@@ -40,6 +45,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -89,13 +95,18 @@ public class RecipeControllerTest {
   }
 
   @Test
-  @WithMockUser(username = TEST_USERNAME, password = TEST_PASSWORD, roles = TEST_ROLE)
   public void recipeIndexDisplaysAllRecipes() throws Exception {
+    List<GrantedAuthority> grantedAuthorityList =
+        new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
+    Authentication authentication =
+        new UsernamePasswordAuthenticationToken(TEST_USERNAME, TEST_PASSWORD, grantedAuthorityList);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
     when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
     final List<Recipe> expectedRecipes = Arrays.asList(TEST_RECIPE);
     when(recipeService.findAll()).thenReturn(expectedRecipes);
 
-    mockMvc.perform(get("/"))
+    mockMvc.perform(get("/").principal(authentication))
         .andExpect(status().isOk())
         .andExpect(view().name("index"))
         .andExpect(model().attribute("user", TEST_USER))

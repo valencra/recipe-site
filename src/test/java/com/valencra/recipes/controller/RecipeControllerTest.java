@@ -1,7 +1,6 @@
 package com.valencra.recipes.controller;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,10 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-import com.valencra.recipes.RecipesApp;
-import com.valencra.recipes.config.SecurityConfig;
 import com.valencra.recipes.model.Recipe;
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.IngredientService;
@@ -24,26 +20,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContext;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.security.web.FilterChainProxy;
-import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +61,7 @@ public class RecipeControllerTest {
 
   private static Long TEST_RECIPE_ID = 1L;
 
-  private static final Recipe TEST_RECIPE = new Recipe(
+  private static final Recipe TEST_RECIPE_1 = new Recipe(
       "test_name",
       "test_description",
       "test_category",
@@ -86,6 +70,19 @@ public class RecipeControllerTest {
       1,
       TEST_USER
   );
+
+  private static final Recipe TEST_RECIPE_2 = new Recipe(
+      "test_name_2",
+      "test_description_2",
+      "test_category_2",
+      new byte[0],
+      1,
+      1,
+      TEST_USER
+  );
+
+  private static final List<Recipe> TEST_RECIPES =
+      Arrays.asList(TEST_RECIPE_1, TEST_RECIPE_2);
 
   private static final List<GrantedAuthority> TEST_GRANTED_AUTHORITY_LIST =
       new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
@@ -106,26 +103,40 @@ public class RecipeControllerTest {
   public void recipeIndexDisplaysAllRecipes() throws Exception {
     SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
     when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
-    final List<Recipe> expectedRecipes = Arrays.asList(TEST_RECIPE);
-    when(recipeService.findAll()).thenReturn(expectedRecipes);
+    when(recipeService.findAll()).thenReturn(TEST_RECIPES);
 
     mockMvc.perform(get("/").principal(TEST_AUTHENTICATION))
         .andExpect(status().isOk())
         .andExpect(view().name("index"))
         .andExpect(model().attribute("user", TEST_USER))
-        .andExpect(model().attribute("recipes", expectedRecipes));
+        .andExpect(model().attribute("recipes", TEST_RECIPES));
   }
 
   @Test
   public void recipeDetailsDisplaysRecipeDetails() throws Exception {
     SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
     when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
-    when(recipeService.findOne(TEST_RECIPE_ID)).thenReturn(TEST_RECIPE);
+    when(recipeService.findOne(TEST_RECIPE_ID)).thenReturn(TEST_RECIPE_1);
 
     mockMvc.perform(get(String.format("/recipes/%d", TEST_RECIPE_ID.intValue())).principal(TEST_AUTHENTICATION))
         .andExpect(status().isOk())
         .andExpect(view().name("detail"))
         .andExpect(model().attribute("user", TEST_USER))
-        .andExpect(model().attribute("recipe", TEST_RECIPE));
+        .andExpect(model().attribute("recipe", TEST_RECIPE_1));
+  }
+
+  @Test
+  public void recipeSearchByCategoryReturnsResultsCorrectly() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findAll()).thenReturn(TEST_RECIPES);
+
+    mockMvc.perform(get(String.format("/recipes/search?query=%s&filter=%s&category=%s",
+        "", "", "test_category"))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("index"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("recipes", Arrays.asList(TEST_RECIPE_1)));
   }
 }

@@ -98,4 +98,17 @@ public class UserControllerTest {
         .andExpect(model().attribute("user", new User()));
   }
 
+  @Test
+  public void currentUserProfileRenders() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+
+    mockMvc.perform(get("/profile")
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("profile"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("viewedUser", TEST_USER))
+        .andExpect(model().attribute("authorized", true));
+  }
 }

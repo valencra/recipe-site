@@ -1,6 +1,5 @@
 package com.valencra.recipes.controller;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -44,11 +43,19 @@ public class UserControllerTest {
 
   private MockMvc mockMvc;
 
+  private static final long TEST_ID = 1L;
+  private static final String TEST_NAME = "Test";
   private static final String TEST_USERNAME = "user";
   private static final String TEST_PASSWORD = "password";
   private static final String TEST_ROLE = "USER";
-  private static final User TEST_USER =
-      new User("Test", TEST_USERNAME, TEST_PASSWORD, new String[]{TEST_ROLE});
+  private static final User TEST_USER = new User();
+  static {
+    TEST_USER.setId(TEST_ID);
+    TEST_USER.setName(TEST_NAME);
+    TEST_USER.setUsername(TEST_USERNAME);
+    TEST_USER.setPassword(TEST_PASSWORD);
+    TEST_USER.setRoles(new String[]{TEST_ROLE});
+  }
 
   private static final List<GrantedAuthority> TEST_GRANTED_AUTHORITY_LIST =
       new ArrayList<GrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority("STANDARD")));
@@ -110,5 +117,19 @@ public class UserControllerTest {
         .andExpect(model().attribute("user", TEST_USER))
         .andExpect(model().attribute("viewedUser", TEST_USER))
         .andExpect(model().attribute("authorized", true));
+  }
+
+  @Test
+  public void userProfileRenders() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(userService.findOne(TEST_ID)).thenReturn(TEST_USER);
+
+    mockMvc.perform(get(String.format("/users/%d", TEST_ID))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(view().name("profile"))
+        .andExpect(model().attribute("user", TEST_USER))
+        .andExpect(model().attribute("viewedUser", TEST_USER));
   }
 }

@@ -313,4 +313,17 @@ public class RecipeControllerTest {
         .andExpect(redirectedUrl(String.format("/recipes/%d", TEST_RECIPE_1.getId())))
         .andExpect(status().is3xxRedirection());
   }
+
+  @Test
+  public void deleteRecipeDeletesRecipe() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findOne(TEST_RECIPE_1_ID)).thenReturn(TEST_RECIPE_1);
+    when(recipeService.delete(TEST_RECIPE_1, TEST_USER)).thenReturn(true);
+
+    mockMvc.perform(post(String.format("/recipes/%d/delete", TEST_RECIPE_1_ID.intValue()))
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(redirectedUrl("/"))
+        .andExpect(status().is3xxRedirection());
+  }
 }

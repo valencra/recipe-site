@@ -96,6 +96,7 @@ public class RecipeController {
     }
 
     userService.save(user);
+
     return "redirect:" + request.getHeader("Referer");
   }
 

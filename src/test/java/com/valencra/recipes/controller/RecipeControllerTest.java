@@ -3,12 +3,14 @@ package com.valencra.recipes.controller;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -42,6 +44,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RecipeControllerTest {
@@ -292,6 +295,20 @@ public class RecipeControllerTest {
         .param("ingredients[0].quantity", TEST_RECIPE_1_INGREDIENT_1.getQuantity().toString())
         .param("steps[0].id", TEST_RECIPE_1_STEP_1.getId().toString())
         .param("steps[0].name", TEST_RECIPE_1_STEP_1.getName())
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(redirectedUrl(String.format("/recipes/%d", TEST_RECIPE_1.getId())))
+        .andExpect(status().is3xxRedirection());
+  }
+
+  @Test
+  public void favoriteRecipeTogglesFavorite() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.findOne(TEST_RECIPE_1_ID)).thenReturn(TEST_RECIPE_1);
+    HttpServletRequest request = mock(HttpServletRequest.class);
+
+    mockMvc.perform(post(String.format("/recipes/%d/favorite", TEST_RECIPE_1_ID.intValue()))
+        .header("Referer", String.format("/recipes/%d", TEST_RECIPE_1.getId()))
         .principal(TEST_AUTHENTICATION))
         .andExpect(redirectedUrl(String.format("/recipes/%d", TEST_RECIPE_1.getId())))
         .andExpect(status().is3xxRedirection());

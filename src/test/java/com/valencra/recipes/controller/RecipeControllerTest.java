@@ -271,4 +271,29 @@ public class RecipeControllerTest {
         .andExpect(model().attribute("action", String.format("/recipes/%d/edit", TEST_RECIPE_1_ID.intValue())))
         .andExpect(model().attribute("submit", "Edit"));
   }
+
+  @Test
+  public void editRecipeEditsRecipe() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(recipeService.findOne(TEST_RECIPE_1_ID)).thenReturn(TEST_RECIPE_1);
+    when(recipeService.save(any(Recipe.class), eq(TEST_USER))).thenReturn(true);
+
+    mockMvc.perform(fileUpload(String.format("/recipes/%d/edit", TEST_RECIPE_1.getId()))
+        .file(new MockMultipartFile("imageFile", "TEST_IMAGE_AS_STRING".getBytes()))
+        .param("id", TEST_RECIPE_1.getId().toString())
+        .param("name", TEST_RECIPE_1.getName())
+        .param("description", TEST_RECIPE_1.getDescription())
+        .param("category", TEST_RECIPE_1.getCategory())
+        .param("preparationTime", TEST_RECIPE_1.getPreparationTime().toString())
+        .param("cookingTime", TEST_RECIPE_1.getCookingTime().toString())
+        .param("ingredients[0].id", TEST_RECIPE_1_INGREDIENT_1.getId().toString())
+        .param("ingredients[0].name", TEST_RECIPE_1_INGREDIENT_1.getName())
+        .param("ingredients[0].condition", TEST_RECIPE_1_INGREDIENT_1.getCondition())
+        .param("ingredients[0].quantity", TEST_RECIPE_1_INGREDIENT_1.getQuantity().toString())
+        .param("steps[0].id", TEST_RECIPE_1_STEP_1.getId().toString())
+        .param("steps[0].name", TEST_RECIPE_1_STEP_1.getName())
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(redirectedUrl(String.format("/recipes/%d", TEST_RECIPE_1.getId())))
+        .andExpect(status().is3xxRedirection());
+  }
 }

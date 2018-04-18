@@ -89,4 +89,13 @@ public class UserControllerTest {
         .andExpect(redirectedUrl("/login"))
         .andExpect(status().is3xxRedirection());
   }
+
+  @Test
+  public void getLoginRendersLoginForm() throws Exception {
+    mockMvc.perform(get("/login"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("login"))
+        .andExpect(model().attribute("user", new User()));
+  }
+
 }

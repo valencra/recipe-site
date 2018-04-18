@@ -1,16 +1,24 @@
 package com.valencra.recipes.controller;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.valencra.recipes.enums.Category;
+import com.valencra.recipes.model.Ingredient;
 import com.valencra.recipes.model.Recipe;
+import com.valencra.recipes.model.Step;
 import com.valencra.recipes.model.User;
 import com.valencra.recipes.service.IngredientService;
 import com.valencra.recipes.service.RecipeService;
@@ -21,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,21 +67,36 @@ public class RecipeControllerTest {
       new User("Test", TEST_USERNAME, TEST_PASSWORD, new String[]{TEST_ROLE});
 
   private static Long TEST_RECIPE_1_ID = 1L;
-  public static final String TEST_RECIPE_1_CATEGORY = "test_category";
-  private static final Recipe TEST_RECIPE_1 = new Recipe(
-      "test_name",
-      "test_description",
-      "test_category",
-      new byte[0],
-      1,
-      1,
-      TEST_USER
-  );
+  private static final String TEST_RECIPE_1_CATEGORY = "test_category";
+  private static final Recipe TEST_RECIPE_1 = new Recipe();
+  private static final Ingredient TEST_RECIPE_1_INGREDIENT_1 = new Ingredient();
+  private static final Step TEST_RECIPE_1_STEP_1 = new Step();
+  static {
+    TEST_RECIPE_1.setName("test_name");
+    TEST_RECIPE_1.setDescription("test_description");
+    TEST_RECIPE_1.setCategory("test_category");
+    TEST_RECIPE_1.setImage(new byte[0]);
+    TEST_RECIPE_1.setPreparationTime(1);
+    TEST_RECIPE_1.setCookingTime(1);
+    TEST_RECIPE_1.setAuthor(TEST_USER);
+    TEST_RECIPE_1.setId(TEST_RECIPE_1_ID);
 
-  public static final String TEST_RECIPE_2_NAME = "test_name_2";
-  public static final String TEST_RECIPE_2_DESCRIPTION = "test_description_2";
-  public static final String TEST_RECIPE_2_CATEGORY = "test_category_2";
-  public static final String TEST_RECIPE_2_INGREDIENT = "test_ingredient_2";
+    TEST_RECIPE_1_INGREDIENT_1.setName("test_ingredient_name");
+    TEST_RECIPE_1_INGREDIENT_1.setCondition("test_ingredient_condition");
+    TEST_RECIPE_1_INGREDIENT_1.setQuantity(1.0);
+    TEST_RECIPE_1_INGREDIENT_1.setId(1L);
+    TEST_RECIPE_1.addIngredient(TEST_RECIPE_1_INGREDIENT_1);
+
+    TEST_RECIPE_1_STEP_1.setName("test_step_name");
+    TEST_RECIPE_1_STEP_1.setId(1L);
+    TEST_RECIPE_1.addStep(TEST_RECIPE_1_STEP_1);
+  }
+
+
+  private static final String TEST_RECIPE_2_NAME = "test_name_2";
+  private static final String TEST_RECIPE_2_DESCRIPTION = "test_description_2";
+  private static final String TEST_RECIPE_2_CATEGORY = "test_category_2";
+  private static final String TEST_RECIPE_2_INGREDIENT = "test_ingredient_2";
   private static final Recipe TEST_RECIPE_2 = new Recipe(
       TEST_RECIPE_2_NAME,
       TEST_RECIPE_2_DESCRIPTION,
@@ -203,6 +227,31 @@ public class RecipeControllerTest {
         .andExpect(model().attribute("heading", "Create Recipe"))
         .andExpect(model().attribute("action", "/recipes/create"))
         .andExpect(model().attribute("submit", "Create"));
+  }
+
+  @Test
+  public void createRecipeAddsNewRecipe() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(TEST_AUTHENTICATION);
+    when(userService.findByUsername(TEST_USERNAME)).thenReturn(TEST_USER);
+    when(recipeService.save(any(Recipe.class), eq(TEST_USER))).thenReturn(true);
+
+    mockMvc.perform(fileUpload("/recipes/create")
+        .file(new MockMultipartFile("imageFile", "TEST_IMAGE_AS_STRING".getBytes()))
+        .param("id", TEST_RECIPE_1.getId().toString())
+        .param("name", TEST_RECIPE_1.getName())
+        .param("description", TEST_RECIPE_1.getDescription())
+        .param("category", TEST_RECIPE_1.getCategory())
+        .param("preparationTime", TEST_RECIPE_1.getPreparationTime().toString())
+        .param("cookingTime", TEST_RECIPE_1.getCookingTime().toString())
+        .param("ingredients[0].id", TEST_RECIPE_1_INGREDIENT_1.getId().toString())
+        .param("ingredients[0].name", TEST_RECIPE_1_INGREDIENT_1.getName())
+        .param("ingredients[0].condition", TEST_RECIPE_1_INGREDIENT_1.getCondition())
+        .param("ingredients[0].quantity", TEST_RECIPE_1_INGREDIENT_1.getQuantity().toString())
+        .param("steps[0].id", TEST_RECIPE_1_STEP_1.getId().toString())
+        .param("steps[0].name", TEST_RECIPE_1_STEP_1.getName())
+        .principal(TEST_AUTHENTICATION))
+        .andExpect(redirectedUrl(String.format("/recipes/%d", TEST_RECIPE_1.getId())))
+        .andExpect(status().is3xxRedirection());
   }
 
   @Test
